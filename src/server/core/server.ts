@@ -1,5 +1,6 @@
 import 'dotenv/config'
 import next from 'next'
+import cors from 'cors'
 import express from 'express'
 import { Public, Private } from '../routes'
 import { IncomingMessage, ServerResponse } from 'http'
@@ -29,8 +30,9 @@ export function createExpressServer(
 ) {
   const server = express()
 
-  // Only create express routes when it is in production
+  // Development
   if (!nextAppHandle) {
+    server.use(cors())
     server.use(express.urlencoded({ extended: true }))
     server.use(express.json())
 
@@ -38,7 +40,7 @@ export function createExpressServer(
     server.use(Private)
   }
 
-  // If nextAppHandle is not passed, just the api will be created
+  // Production
   if (nextAppHandle) {
     server.get('*', (req, res) => {
       return nextAppHandle(req, res)
