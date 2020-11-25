@@ -10,7 +10,7 @@ interface Auth {
   isAuthenticated: boolean
   isLoading: boolean
   user: User | null
-  login: (email: string, password: string) => Promise<void>
+  login: (email: string, password: string) => Promise<boolean>
   logout: () => void
 }
 
@@ -45,11 +45,25 @@ export const AuthProvider = ({ children }: ReactProps) => {
     loadUser()
   }, [])
 
-  const login = async (email: string, password: string) => {
-    // Get token
-    const { data: token } = await api.post('/login', { email, password })
+  /**
+   * Make login with username and password
+   */
+  const login = async (
+    username: string,
+    password: string
+  ): Promise<boolean> => {
+    if (!username || !password) {
+      return false
+    }
 
-    if (token) {
+    // Get token
+    try {
+      const { data } = await api.post('/login', { username, password })
+
+      const { token } = data
+
+      if (!token) return false
+
       Cookies.set('token', token, { expires: 7 })
       api.defaults.headers.Authorization = `Bearer ${token}`
 
@@ -57,11 +71,17 @@ export const AuthProvider = ({ children }: ReactProps) => {
       try {
         const { data: user } = await api.get('/users/me')
 
-        if (user) setUser(user)
+        if (user) {
+          setUser(user)
+        }
       } catch (error) {
-        // console.log('Error on login ' + error.message)
+        toast.error(error.message)
       }
+    } catch (error) {
+      toast.error(error.message)
     }
+
+    return !!user
   }
 
   const logout = () => {
@@ -92,7 +112,7 @@ export const PrivateRoute = ({ children }: ReactProps) => {
 
   if (!isLoading) {
     if (!isAuthenticated) {
-      router.push('/login')
+      router.push('/login?redirect=' + router.asPath)
     } else {
       return <>{children}</>
     }

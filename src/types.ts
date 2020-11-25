@@ -9,3 +9,10 @@ export interface User {
 export interface ReactProps {
   children?: ReactNode
 }
+
+export interface Config {
+  api: {
+    host: string
+    port: number
+  }
+}

@@ -1,5 +1,7 @@
 import Link from 'next/link'
+import router from 'next/router'
 import { useState } from 'react'
+
 import { useAuth } from '../contexts/AuthContext'
 
 export default function Login() {
@@ -10,7 +12,11 @@ export default function Login() {
 
   const makeLogin = () => {
     if (login) {
-      login(username, password)
+      const isLogged = login(username, password)
+
+      if (isLogged) {
+        router.push('/')
+      }
     }
   }
 
