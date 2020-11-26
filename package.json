@@ -9,10 +9,12 @@
   },
   "dependencies": {
     "axios": "^0.21.0",
+    "bootstrap": "^4.5.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "eslint": "^7.13.0",
     "express": "^4.17.1",
+    "jquery": "^3.5.1",
     "js-cookie": "^2.2.1",
     "jsonwebtoken": "^8.5.1",
     "next": "10.0.1",
@@ -21,8 +23,10 @@
     "react-toastify": "^6.1.0"
   },
   "devDependencies": {
+    "@types/bootstrap": "^5.0.0",
     "@types/cors": "^2.8.8",
     "@types/express": "^4.17.9",
+    "@types/jquery": "^3.5.4",
     "@types/js-cookie": "^2.2.6",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/node": "^14.14.7",

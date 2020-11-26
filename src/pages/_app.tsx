@@ -1,8 +1,10 @@
+import Head from 'next/head'
 import { AppProps } from 'next/app'
 import { ToastContainer } from 'react-toastify'
 
-import '../styles/globals.css'
+// import '../styles/globals.css'
 import 'react-toastify/dist/ReactToastify.css'
+import '../styles/globals.css'
 
 // AdminLTE
 import '../../public/adminlte/plugins/fontawesome-free/css/all.min.css'
@@ -13,12 +15,20 @@ import { ConfigProvider } from '../contexts/ConfigContext'
 
 function App({ Component, pageProps }: AppProps) {
   return (
-    <ConfigProvider>
-      <AuthProvider>
-        <ToastContainer />
-        <Component {...pageProps} />
-      </AuthProvider>
-    </ConfigProvider>
+    <>
+      <Head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta httpEquiv="x-ua-compatible" content="ie=edge" />
+      </Head>
+
+      <ConfigProvider>
+        <AuthProvider>
+          <ToastContainer />
+          <Component {...pageProps} />
+        </AuthProvider>
+      </ConfigProvider>
+    </>
   )
 }
 

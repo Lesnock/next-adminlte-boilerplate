@@ -3,8 +3,10 @@ import { PrivateRoute } from '../contexts/AuthContext'
 // Components
 import { Card, CardText, CardButton } from '../components/Card'
 import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
 import Sidebar from '../components/Sidebar'
 import PageContent from '../components/PageContent'
+import ControlSidebar from '../components/ControlSidebar'
 
 export default function Home() {
   // Breadcrumb ===============================
@@ -22,12 +24,16 @@ export default function Home() {
 
         <PageContent title="Produtos" breadcrumb={breadcrumb}>
           <div className="col-lg-6">
-            <Card title="Novo Card" type="primary" outline>
-              <CardText>Meu novo card</CardText>
-              <CardButton href="/login">Entendi</CardButton>
+            <Card title="Produtos" type="primary" outline>
+              <CardText>Produtos</CardText>
+              <CardButton href="/login">Ver todos</CardButton>
             </Card>
           </div>
         </PageContent>
+
+        <ControlSidebar />
+
+        <Footer />
       </div>
     </PrivateRoute>
   )
