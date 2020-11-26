@@ -1,10 +1,20 @@
 import { useEffect } from 'react'
+import Link from 'next/link'
 
-import { useAuth } from '../../contexts/AuthContext'
+type SidebaProps = {
+  items: SidebarItem[]
+}
 
-export default function Sidebar() {
-  const { user } = useAuth()
+export type SidebarItem = {
+  name: string
+  icon: string
+  link?: string
+  active: boolean
+  hasTreeView: boolean
+  subitems?: SidebarItem[]
+}
 
+export default function Sidebar({ items }: SidebaProps) {
   useEffect(() => {
     // eslint-disable-next-line
     const trees: any = $('[data-widget="treeview"]')
@@ -16,30 +26,15 @@ export default function Sidebar() {
       <aside className="main-sidebar sidebar-dark-primary elevation-4">
         <a href="index3.html" className="brand-link">
           <img
-            src="/adminlte/dist/img/AdminLTELogo.png"
+            src="/images/logo.png"
             alt="AdminLTE Logo"
-            className="brand-image img-circle elevation-3"
+            className="brand-image img-circle"
             style={{ opacity: 0.8 }}
           />
-          <span className="brand-text font-weight-light">AdminLTE 3</span>
+          <span className="brand-text font-weight-light">Almoxarifado</span>
         </a>
 
         <div className="sidebar">
-          <div className="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div className="image">
-              <img
-                src="/adminlte/dist/img/user2-160x160.jpg"
-                className="img-circle elevation-2"
-                alt="User Image"
-              />
-            </div>
-            <div className="info">
-              <a href="#" className="d-block">
-                {user && user.name}
-              </a>
-            </div>
-          </div>
-
           <nav className="mt-2">
             <ul
               className="nav nav-pills nav-sidebar flex-column"
@@ -47,42 +42,42 @@ export default function Sidebar() {
               role="menu"
               data-accordion="false"
             >
-              <li className="nav-item has-treeview menu-open">
-                <a href="#" className="nav-link active">
-                  <i className="nav-icon fas fa-tachometer-alt"></i>
-                  <p>
-                    Starter Pages
-                    <i className="right fas fa-angle-left"></i>
-                  </p>
-                </a>
-                <ul className="nav nav-treeview">
-                  <li className="nav-item">
-                    <a href="#" className="nav-link active">
-                      <i className="far fa-circle nav-icon"></i>
-                      <p>Active Page</p>
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a href="#" className="nav-link">
-                      <i className="far fa-circle nav-icon"></i>
-                      <p>Inactive Page</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li className="nav-item">
-                <a href="#" className="nav-link">
-                  <i className="nav-icon fas fa-th"></i>
-                  <p>
-                    Simple Link
-                    <span className="right badge badge-danger">New</span>
-                  </p>
-                </a>
-              </li>
+              {items &&
+                items.map((item, index) => (
+                  <MenuItem key={index} item={item} />
+                ))}
             </ul>
           </nav>
         </div>
       </aside>
     </>
+  )
+}
+
+function MenuItem({ item }: { item: SidebarItem }) {
+  return (
+    <li
+      className={`nav-item
+        ${item.hasTreeView && 'has-treeview'}
+        ${item.hasTreeView && item.active && 'menu-open'}
+        `}
+    >
+      <Link href={item.link || '#'}>
+        <a className={`nav-link ${item.active && 'active'}`}>
+          <i className={`nav-icon ${item.icon}`}></i>
+          <p>
+            {item.name}
+            {item.hasTreeView && <i className="right fas fa-angle-left"></i>}
+          </p>
+        </a>
+      </Link>
+      {item.subitems && item.subitems.length > 0 && (
+        <ul className="nav nav-treeview">
+          {item.subitems?.map((subitem, index) => (
+            <MenuItem key={index} item={subitem} />
+          ))}
+        </ul>
+      )}
+    </li>
   )
 }

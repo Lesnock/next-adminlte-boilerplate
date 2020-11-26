@@ -15,3 +15,7 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.has-treeview ul li {
+  padding-left: 10px;
+}
