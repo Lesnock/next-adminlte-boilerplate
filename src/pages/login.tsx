@@ -23,7 +23,7 @@ export default function Login() {
       const isLogged = await login(username, password)
 
       if (isLogged) {
-        router.push('/')
+        return router.push('/')
       }
     }
 
@@ -34,7 +34,7 @@ export default function Login() {
     <div className="hold-transition login-page">
       <div className="login-box">
         <div className="login-logo">
-          <a href="../../index2.html">
+          <a href="/login">
             <div className="image">
               <img src="/images/logo.png" alt="Logo da Metadil" />
             </div>

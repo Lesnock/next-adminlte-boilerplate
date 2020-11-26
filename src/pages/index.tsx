@@ -20,7 +20,7 @@ export default function Home({ menu, navbar, breadcrumb }: HomeProps) {
   return (
     <PrivateRoute>
       <div className="wrapper">
-        <Navbar items={navbar} />
+        <Navbar items={navbar} withSearch={true} />
         <Sidebar items={menu} />
 
         <PageContent title="Produtos" breadcrumb={breadcrumb}>

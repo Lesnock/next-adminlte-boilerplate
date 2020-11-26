@@ -32,9 +32,9 @@ export const AuthProvider = ({ children }: ReactProps) => {
         api.defaults.headers.Authorization = `Bearer ${token}`
         // Get user
         try {
-          const { data: user } = await api.get('/users/me')
+          const { data: me } = await api.get('/users/me')
 
-          if (user) setUser(user)
+          if (me) setUser(me)
         } catch (error) {
           logout()
         }
@@ -56,6 +56,8 @@ export const AuthProvider = ({ children }: ReactProps) => {
       return false
     }
 
+    let isLogged = false
+
     // Get token
     try {
       let data: { token?: string } = {}
@@ -69,17 +71,19 @@ export const AuthProvider = ({ children }: ReactProps) => {
 
       const { token } = data
 
-      if (!token) return false
+      if (!token) {
+        return false
+      }
 
       Cookies.set('token', token, { expires: 7 })
-      api.defaults.headers.Authorization = `Bearer ${token}`
 
       // Get user
       try {
-        const { data: user } = await api.get('/users/me')
+        const { data: me } = await api.get('/users/me')
 
-        if (user) {
-          setUser(user)
+        if (me) {
+          setUser(me)
+          isLogged = true
         }
       } catch (error) {
         toast.error(error.message)
@@ -88,7 +92,9 @@ export const AuthProvider = ({ children }: ReactProps) => {
       toast.error(error.message)
     }
 
-    return !!user
+    console.log('user', user)
+
+    return isLogged
   }
 
   const logout = () => {

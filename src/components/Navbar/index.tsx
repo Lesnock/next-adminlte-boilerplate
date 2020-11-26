@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 type NavbarProps = {
   items?: NavbarItem[]
-  displaySearch?: boolean
+  withSearch?: boolean
 }
 
 export type NavbarItem = {
@@ -10,7 +10,7 @@ export type NavbarItem = {
   link: string
 }
 
-export default function Navbar({ items, displaySearch = true }: NavbarProps) {
+export default function Navbar({ items, withSearch = true }: NavbarProps) {
   return (
     <nav className="main-header navbar navbar-expand navbar-white navbar-light">
       <ul className="navbar-nav">
@@ -30,7 +30,7 @@ export default function Navbar({ items, displaySearch = true }: NavbarProps) {
       </ul>
 
       {/* SEARCH FORM */}
-      {displaySearch && (
+      {withSearch && (
         <form className="form-inline ml-3">
           <div className="input-group input-group-sm">
             <input
