@@ -1,4 +1,15 @@
-export default function Navbar() {
+import Link from 'next/link'
+
+type NavbarProps = {
+  items?: NavbarItem[]
+}
+
+export type NavbarItem = {
+  name: string
+  link: string
+}
+
+export default function Navbar({ items }: NavbarProps) {
   return (
     <nav className="main-header navbar navbar-expand navbar-white navbar-light">
       <ul className="navbar-nav">
@@ -7,16 +18,14 @@ export default function Navbar() {
             <i className="fas fa-bars"></i>
           </a>
         </li>
-        <li className="nav-item d-none d-sm-inline-block">
-          <a href="index3.html" className="nav-link">
-            Home
-          </a>
-        </li>
-        <li className="nav-item d-none d-sm-inline-block">
-          <a href="#" className="nav-link">
-            Contact
-          </a>
-        </li>
+        {items &&
+          items.map((item, index) => (
+            <li key={index} className="nav-item d-none d-sm-inline-block">
+              <Link href={item.link}>
+                <a className="nav-link">{item.name}</a>
+              </Link>
+            </li>
+          ))}
       </ul>
 
       {/* SEARCH FORM */}

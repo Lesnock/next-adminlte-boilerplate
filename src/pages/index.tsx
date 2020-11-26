@@ -58,10 +58,15 @@ export default function Home() {
     }
   ]
 
+  const navbar = [
+    { name: 'Home', link: '/' },
+    { name: 'Alertas', link: '/alertas' }
+  ]
+
   return (
     <PrivateRoute>
       <div className="wrapper">
-        <Navbar />
+        <Navbar items={navbar} />
         <Sidebar items={menu} />
 
         <PageContent title="Produtos" breadcrumb={breadcrumb}>
