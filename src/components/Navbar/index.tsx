@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { useAuth } from '../../contexts/AuthContext'
 
 type NavbarProps = {
   items?: NavbarItem[]
@@ -11,6 +12,8 @@ export type NavbarItem = {
 }
 
 export default function Navbar({ items, withSearch = true }: NavbarProps) {
+  const { user } = useAuth()
+
   return (
     <nav className="main-header navbar navbar-expand navbar-white navbar-light">
       <ul className="navbar-nav">
@@ -155,6 +158,26 @@ export default function Navbar({ items, withSearch = true }: NavbarProps) {
             </a>
           </div>
         </li>
+        <li className="nav-item dropdown user-menu">
+          <a
+            href="#"
+            className="nav-link dropdown-toggle"
+            data-toggle="dropdown"
+          >
+            <span className="d-none d-md-inline">{user && user.name}</span>
+          </a>
+          <ul className="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <li className="user-footer">
+              <Link href="/perfil">
+                <a className="btn btn-default btn-flat">Perfil</a>
+              </Link>
+              <Link href="/logout">
+                <a className="btn btn-default btn-flat float-right">Sair</a>
+              </Link>
+            </li>
+          </ul>
+        </li>
+
         <li className="nav-item">
           <a
             className="nav-link"

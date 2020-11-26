@@ -92,8 +92,6 @@ export const AuthProvider = ({ children }: ReactProps) => {
       toast.error(error.message)
     }
 
-    console.log('user', user)
-
     return isLogged
   }
 

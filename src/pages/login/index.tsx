@@ -1,10 +1,10 @@
 import router from 'next/router'
 import { useState, FormEvent } from 'react'
 
-import { delay } from '../helpers'
-import { useAuth } from '../contexts/AuthContext'
+import { delay } from '../../helpers'
+import { useAuth } from '../../contexts/AuthContext'
 
-import Loading from '../components/Loading'
+import Loading from '../../components/Loading'
 
 export default function Login() {
   const [username, setUsername] = useState('')
