@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-type BreadcrumbItem = {
+export type BreadcrumbItem = {
   name: string
   link?: string
   active?: boolean
