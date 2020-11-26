@@ -58,7 +58,14 @@ export const AuthProvider = ({ children }: ReactProps) => {
 
     // Get token
     try {
-      const { data } = await api.post('/login', { username, password })
+      let data: { token?: string } = {}
+
+      try {
+        const response = await api.post('/login', { username, password })
+        data = response.data
+      } catch (error) {
+        toast.error(error.message)
+      }
 
       const { token } = data
 

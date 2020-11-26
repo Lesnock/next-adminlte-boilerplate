@@ -53,7 +53,6 @@ export function getStaticProps() {
     {
       name: 'Produtos',
       icon: 'fas fa-box',
-      link: '#',
       active: true,
       hasTreeView: true,
       subitems: [
@@ -76,7 +75,6 @@ export function getStaticProps() {
     {
       name: 'Entregas',
       icon: 'fas fa-box',
-      link: '#',
       active: false,
       hasTreeView: true,
       subitems: [
@@ -92,9 +90,17 @@ export function getStaticProps() {
     {
       name: 'Configurações',
       icon: 'fas fa-cog',
-      link: '/configuracoes',
       active: false,
-      hasTreeView: false
+      hasTreeView: true,
+      subitems: [
+        {
+          name: 'Usuários',
+          icon: 'fas fa-user',
+          link: '/usuarios',
+          active: false,
+          hasTreeView: false
+        }
+      ]
     }
   ]
 
