@@ -6,6 +6,8 @@ import { createContext, useState, useContext, useEffect } from 'react'
 import api from '../services/api'
 import { ReactProps, User } from '../types'
 
+import Loading from '../components/Loading'
+
 interface Auth {
   isAuthenticated: boolean
   isLoading: boolean
@@ -129,5 +131,5 @@ export const PrivateRoute = ({ children }: ReactProps) => {
     }
   }
 
-  return <h1>Carregando...</h1>
+  return <Loading type="" />
 }
