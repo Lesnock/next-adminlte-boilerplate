@@ -44,7 +44,6 @@ export function getStaticProps() {
   // Breadcrumb ===============================
   const breadcrumb: BreadcrumbItem[] = [
     { name: 'Home', link: '/' },
-    { name: 'Categorias', link: '/' },
     { name: 'Produtos', link: '/produtos', active: true }
   ]
 
@@ -52,49 +51,28 @@ export function getStaticProps() {
   const menu: SidebarItem[] = [
     {
       name: 'Produtos',
+      slug: 'products',
       icon: 'fas fa-box',
       active: true,
-      hasTreeView: true,
-      subitems: [
-        {
-          name: 'Cadastro',
-          icon: 'fas fa-box',
-          link: '/produtos',
-          active: true,
-          hasTreeView: false
-        },
-        {
-          name: 'Categorias',
-          icon: 'fas fa-list',
-          link: '/produtos',
-          active: false,
-          hasTreeView: false
-        }
-      ]
+      hasTreeView: false
     },
     {
       name: 'Entregas',
-      icon: 'fas fa-box',
+      slug: 'withdraws',
+      icon: 'fas fa-hands-helping',
       active: false,
-      hasTreeView: true,
-      subitems: [
-        {
-          name: 'Cadastro',
-          icon: 'fas fa-box',
-          link: '/entregas',
-          active: false,
-          hasTreeView: false
-        }
-      ]
+      hasTreeView: false
     },
     {
       name: 'Configurações',
       icon: 'fas fa-cog',
+      slug: 'config',
       active: false,
       hasTreeView: true,
       subitems: [
         {
           name: 'Usuários',
+          slug: 'config-users',
           icon: 'fas fa-user',
           link: '/usuarios',
           active: false,

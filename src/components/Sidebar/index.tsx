@@ -7,6 +7,7 @@ type SidebaProps = {
 
 export type SidebarItem = {
   name: string
+  slug: string
   icon: string
   link?: string
   active: boolean
