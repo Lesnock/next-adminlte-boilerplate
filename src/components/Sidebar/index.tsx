@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import Link from 'next/link'
 
-type SidebaProps = {
-  items: SidebarItem[]
+type SidebarProps = {
+  actives: string[]
 }
 
 export type SidebarItem = {
@@ -10,12 +10,50 @@ export type SidebarItem = {
   slug: string
   icon: string
   link?: string
-  active: boolean
   hasTreeView: boolean
   subitems?: SidebarItem[]
 }
 
-export default function Sidebar({ items }: SidebaProps) {
+// Menu ======================================
+const menu: SidebarItem[] = [
+  {
+    name: 'Início',
+    slug: 'home',
+    icon: 'fas fa-home',
+    link: '/',
+    hasTreeView: false
+  },
+  {
+    name: 'Produtos',
+    slug: 'products',
+    icon: 'fas fa-box',
+    link: '/produtos',
+    hasTreeView: false
+  },
+  {
+    name: 'Entregas',
+    slug: 'withdraws',
+    icon: 'fas fa-hands-helping',
+    hasTreeView: false
+  },
+  {
+    name: 'Configurações',
+    icon: 'fas fa-cog',
+    slug: 'config',
+    hasTreeView: true,
+    subitems: [
+      {
+        name: 'Usuários',
+        slug: 'config-users',
+        icon: 'fas fa-user',
+        link: '/usuarios',
+        hasTreeView: false
+      }
+    ]
+  }
+]
+
+export default function Sidebar({ actives }: SidebarProps) {
   useEffect(() => {
     // eslint-disable-next-line
     const trees: any = $('[data-widget="treeview"]')
@@ -25,7 +63,7 @@ export default function Sidebar({ items }: SidebaProps) {
   return (
     <>
       <aside className="main-sidebar sidebar-dark-primary elevation-4">
-        <a href="index3.html" className="brand-link">
+        <a href="/" className="brand-link">
           <img
             src="/images/logo.png"
             alt="AdminLTE Logo"
@@ -43,10 +81,9 @@ export default function Sidebar({ items }: SidebaProps) {
               role="menu"
               data-accordion="false"
             >
-              {items &&
-                items.map((item, index) => (
-                  <MenuItem key={index} item={item} />
-                ))}
+              {menu.map((item, index) => (
+                <MenuItem key={index} item={item} actives={actives} />
+              ))}
             </ul>
           </nav>
         </div>
@@ -55,16 +92,16 @@ export default function Sidebar({ items }: SidebaProps) {
   )
 }
 
-function MenuItem({ item }: { item: SidebarItem }) {
+function MenuItem({ item, actives }: { item: SidebarItem; actives: string[] }) {
   return (
     <li
       className={`nav-item
         ${item.hasTreeView && 'has-treeview'}
-        ${item.hasTreeView && item.active && 'menu-open'}
+        ${item.hasTreeView && actives.includes(item.slug) && 'menu-open'}
         `}
     >
       <Link href={item.link || '#'}>
-        <a className={`nav-link ${item.active && 'active'}`}>
+        <a className={`nav-link ${actives.includes(item.slug) && 'active'}`}>
           <i className={`nav-icon ${item.icon}`}></i>
           <p>
             {item.name}
@@ -75,7 +112,7 @@ function MenuItem({ item }: { item: SidebarItem }) {
       {item.subitems && item.subitems.length > 0 && (
         <ul className="nav nav-treeview">
           {item.subitems?.map((subitem, index) => (
-            <MenuItem key={index} item={subitem} />
+            <MenuItem key={index} item={subitem} actives={actives} />
           ))}
         </ul>
       )}

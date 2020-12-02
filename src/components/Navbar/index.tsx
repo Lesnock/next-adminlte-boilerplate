@@ -11,7 +11,13 @@ export type NavbarItem = {
   link: string
 }
 
-export default function Navbar({ items, withSearch = true }: NavbarProps) {
+// Navbar ======================================
+const navbar: NavbarItem[] = [
+  { name: 'Home', link: '/' },
+  { name: 'Alertas', link: '/alertas' }
+]
+
+export default function Navbar({ withSearch = true }: NavbarProps) {
   const { user } = useAuth()
 
   return (
@@ -22,14 +28,13 @@ export default function Navbar({ items, withSearch = true }: NavbarProps) {
             <i className="fas fa-bars"></i>
           </a>
         </li>
-        {items &&
-          items.map((item, index) => (
-            <li key={index} className="nav-item d-none d-sm-inline-block">
-              <Link href={item.link}>
-                <a className="nav-link">{item.name}</a>
-              </Link>
-            </li>
-          ))}
+        {navbar.map((item, index) => (
+          <li key={index} className="nav-item d-none d-sm-inline-block">
+            <Link href={item.link}>
+              <a className="nav-link">{item.name}</a>
+            </Link>
+          </li>
+        ))}
       </ul>
 
       {/* SEARCH FORM */}
