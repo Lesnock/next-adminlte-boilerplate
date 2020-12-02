@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, ReactNode } from 'react'
 import router from 'next/router'
 
 import styles from './Styles.module.css'
@@ -7,17 +7,26 @@ type Header = {
   label: string
   name: string
   sortable: boolean
+  searchable: boolean
 }
 
-type Row = Array<string | number>
+type Row = Array<string | number | ReactNode>
 
 type TableProps = {
   title?: string
   headers?: Header[]
   rows?: Row[]
+  withSearchbar?: boolean
+  withFieldSearch?: boolean
 }
 
-export default function Table({ title, headers = [], rows = [] }: TableProps) {
+export default function Table({
+  title = 'Tabela de Dados',
+  headers = [],
+  rows = [],
+  withSearchbar = false,
+  withFieldSearch = false
+}: TableProps) {
   const { sort, order } = router.query
 
   const [ordering, setOrdering] = useState({
@@ -64,22 +73,24 @@ export default function Table({ title, headers = [], rows = [] }: TableProps) {
             <div className="card-header">
               <h3 className="card-title">{title}</h3>
               <div className="card-tools">
-                <div
-                  className="input-group input-group-sm"
-                  style={{ width: 300 }}
-                >
-                  <input
-                    type="text"
-                    name="table_search"
-                    className="form-control float-right"
-                    placeholder="Search"
-                  />
-                  <div className="input-group-append">
-                    <button type="submit" className="btn btn-default">
-                      <i className="fas fa-search" />
-                    </button>
+                {withSearchbar && (
+                  <div
+                    className="input-group input-group-sm"
+                    style={{ width: 400 }}
+                  >
+                    <input
+                      type="text"
+                      name="table_search"
+                      className="form-control float-right"
+                      placeholder="Pesquisa"
+                    />
+                    <div className="input-group-append">
+                      <button type="submit" className="btn btn-default">
+                        <i className="fas fa-search" />
+                      </button>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
 
@@ -108,6 +119,24 @@ export default function Table({ title, headers = [], rows = [] }: TableProps) {
                   </tr>
                 </thead>
                 <tbody>
+                  {withFieldSearch && (
+                    <tr>
+                      {headers.map((header, index) => (
+                        <td key={index}>
+                          <input
+                            type="text"
+                            className="form-control float-right"
+                            placeholder={
+                              header.searchable
+                                ? `Pesquisar por ${header.label}`
+                                : '-'
+                            }
+                            disabled={!header.searchable}
+                          />
+                        </td>
+                      ))}
+                    </tr>
+                  )}
                   {rows.map((row, rowIndex) => (
                     <tr key={rowIndex}>
                       {row.map((cell, cellIndex) => (
