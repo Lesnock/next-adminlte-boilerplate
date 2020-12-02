@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 import apiConfig from '../config/api'
 
 const api = Axios.create({
-  baseURL: `${apiConfig.host}:${apiConfig.port}/api`
+  baseURL: `${apiConfig.host}:${apiConfig.port}`
 })
 
 /**
