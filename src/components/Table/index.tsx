@@ -1,6 +1,9 @@
 import { useEffect, useState, ReactNode } from 'react'
 import router from 'next/router'
 
+import Pagination from '../Pagination'
+import tableStore from '../../stores/TableStore'
+
 import styles from './Styles.module.css'
 
 type Header = {
@@ -27,20 +30,20 @@ export default function Table({
   withSearchbar = false,
   withFieldSearch = false
 }: TableProps) {
-  const { sort, order } = router.query
+  const [sort, setSort] = useState(tableStore.get('sort'))
+  const [order, setOrder] = useState(tableStore.get('order'))
 
-  const [ordering, setOrdering] = useState({
-    sort: sort,
-    order: order || 'asc'
-  })
+  tableStore.listen('sort', setSort)
+  tableStore.listen('order', setOrder)
 
   // Sort table
   const sortBy = (column: string) => {
-    if (ordering.sort === column && ordering.order === 'asc') {
-      return setOrdering({ sort: column, order: 'desc' })
+    if (sort === column && order === 'asc') {
+      return tableStore.update('order', 'desc')
     }
 
-    return setOrdering({ sort: column, order: 'asc' })
+    tableStore.update('sort', column)
+    tableStore.update('order', 'asc')
   }
 
   // Get header icon according to header state
@@ -49,11 +52,11 @@ export default function Table({
       return ''
     }
 
-    if (header.name !== ordering.sort) {
+    if (header.name !== sort) {
       return 'fas fa-arrows-alt-v'
     }
 
-    if (ordering.order === 'desc') {
+    if (order === 'desc') {
       return 'fas fa-arrow-up'
     }
 
@@ -62,8 +65,8 @@ export default function Table({
 
   // React to ordering changes
   useEffect(() => {
-    console.log(ordering)
-  }, [ordering])
+    console.log(sort, order)
+  }, [sort, order])
 
   return (
     <div className="container-fluid">
@@ -94,8 +97,8 @@ export default function Table({
               </div>
             </div>
 
-            <div className="card-body table-responsive p-0">
-              <table className="table table-head-fixed text-nowrap">
+            <div className="card-body table-responsive table-bordered p-0">
+              <table className="table text-nowrap">
                 <thead>
                   <tr>
                     {headers &&
@@ -117,12 +120,11 @@ export default function Table({
                         </th>
                       ))}
                   </tr>
-                </thead>
-                <tbody>
+
                   {withFieldSearch && (
                     <tr>
                       {headers.map((header, index) => (
-                        <td key={index}>
+                        <th key={index}>
                           <input
                             type="text"
                             className="form-control float-right"
@@ -133,10 +135,12 @@ export default function Table({
                             }
                             disabled={!header.searchable}
                           />
-                        </td>
+                        </th>
                       ))}
                     </tr>
                   )}
+                </thead>
+                <tbody>
                   {rows.map((row, rowIndex) => (
                     <tr key={rowIndex}>
                       {row.map((cell, cellIndex) => (
@@ -147,6 +151,8 @@ export default function Table({
                 </tbody>
               </table>
             </div>
+
+            <Pagination />
           </div>
         </div>
       </div>

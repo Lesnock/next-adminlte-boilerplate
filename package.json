@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@lesnock/simple-store": "^1.2.6",
     "axios": "^0.21.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
