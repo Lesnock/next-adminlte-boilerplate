@@ -36,6 +36,17 @@ export default function Table({
   tableStore.listen('sort', setSort)
   tableStore.listen('order', setOrder)
 
+  // Get sort and order from query params
+  useEffect(() => {
+    if (router.query.sort) {
+      tableStore.update('sort', router.query.sort)
+    }
+
+    if (router.query.order) {
+      tableStore.update('order', router.query.order)
+    }
+  })
+
   // Sort table
   const sortBy = (column: string) => {
     if (sort === column && order === 'asc') {
@@ -62,11 +73,6 @@ export default function Table({
 
     return 'fas fa-arrow-down'
   }
-
-  // React to ordering changes
-  useEffect(() => {
-    console.log(sort, order)
-  }, [sort, order])
 
   return (
     <div className="container-fluid">
