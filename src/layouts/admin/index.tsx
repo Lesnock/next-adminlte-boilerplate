@@ -1,3 +1,6 @@
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import Sidebar from '../../components/Sidebar'
@@ -7,6 +10,7 @@ import ControlSidebar from '../../components/ControlSidebar'
 import { BreadcrumbItem } from '../../components/Breadcrumb'
 
 import { ReactProps } from '../../types'
+import tableStore from '../../stores/TableStore'
 
 // Types
 type AdminLayoutProps = {
@@ -21,6 +25,26 @@ export default function AdminLayout({
   breadcrumb,
   children
 }: AdminLayoutProps & ReactProps) {
+  const router = useRouter()
+
+  useEffect(() => {
+    updateTableStoreByQuery()
+  })
+
+  function updateTableStoreByQuery() {
+    if (router.query.page) {
+      tableStore.update('currentPage', Number(router.query.page))
+    }
+
+    if (router.query.sort) {
+      tableStore.update('sort', router.query.sort)
+    }
+
+    if (router.query.order) {
+      tableStore.update('order', router.query.order)
+    }
+  }
+
   return (
     <PrivateRoute>
       <div className="wrapper">

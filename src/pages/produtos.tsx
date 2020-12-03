@@ -68,7 +68,7 @@ const rows = [
 
 export default function Produtos() {
   useEffect(() => {
-    tableStore.update('totalPages', 10)
+    tableStore.update('totalPages', 30)
   })
 
   return (
