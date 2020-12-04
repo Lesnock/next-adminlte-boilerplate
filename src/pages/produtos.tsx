@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
+import { withRouter, Router } from 'next/router'
 
 import api from '../services/api'
-import { delay } from '../helpers'
+import { delay, setURLParams } from '../helpers'
 
 import Table from '../components/Table'
 import AdminLayout from '../layouts/admin'
@@ -31,7 +32,7 @@ const headers = [
   }
 ]
 
-export default function Produtos() {
+function Produtos({ router }: { router: Router }) {
   const [products, setProducts] = useState([])
   const [limit, setLimit] = useState(tableStore.get('limit'))
   const [sort, setSort] = useState(tableStore.get('sort'))
@@ -47,6 +48,7 @@ export default function Produtos() {
   }, [])
 
   useEffect(() => {
+    // eslint-disable-next-line
     function makeRow(row: { [Key: string]: any }) {
       return [
         row.id,
@@ -77,7 +79,14 @@ export default function Produtos() {
         params
       })
 
-      tableStore.update('totalPages', Math.ceil(data.total / limit))
+      const totalPages = Math.ceil(data.total / limit)
+
+      if (page > totalPages) {
+        setURLParams(router, { page: 1 })
+        tableStore.update('currentPage', 1)
+      }
+
+      tableStore.update('totalPages', totalPages)
 
       const rows = data.rows.map(makeRow)
 
@@ -86,7 +95,7 @@ export default function Produtos() {
     }
 
     getProducts()
-  }, [limit, sort, order, page])
+  }, [limit, sort, order, page, router])
 
   return (
     <AdminLayout
@@ -103,3 +112,5 @@ export default function Produtos() {
     </AdminLayout>
   )
 }
+
+export default withRouter(Produtos)
