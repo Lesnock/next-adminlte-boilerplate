@@ -1,4 +1,5 @@
 import { useEffect, useState, MouseEvent } from 'react'
+
 import tableStore from '../../stores/TableStore'
 
 import { calculatePagination } from '../../helpers'
@@ -7,10 +8,10 @@ const Pagination = () => {
   const [currentPage, setCurrentPage] = useState(tableStore.get('currentPage'))
   const [totalPages, setTotalPages] = useState(tableStore.get('totalPages'))
 
-  tableStore.listen('currentPage', (value) => {
-    setCurrentPage(value)
-  })
-  tableStore.listen('totalPages', setTotalPages)
+  useEffect(() => {
+    tableStore.listen('currentPage', setCurrentPage)
+    tableStore.listen('totalPages', setTotalPages)
+  }, [])
 
   // Go to Next Page
   const next = (event: MouseEvent) => {
@@ -29,6 +30,14 @@ const Pagination = () => {
   }
 
   const goTo = (page: number) => {
+    if (page > totalPages) {
+      page = totalPages
+    }
+
+    if (page < 1) {
+      page = 1
+    }
+
     tableStore.update('currentPage', page)
   }
 
@@ -62,7 +71,14 @@ const Pagination = () => {
             key={page}
             className={`page-item ${page === currentPage ? 'active' : ''}`}
           >
-            <a className="page-link" href="#">
+            <a
+              className="page-link"
+              href="#"
+              onClick={(event) => {
+                event.preventDefault()
+                goTo(page)
+              }}
+            >
               {page}
             </a>
           </li>

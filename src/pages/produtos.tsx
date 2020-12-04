@@ -1,4 +1,6 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+
+import api from '../services/api'
 
 import Table from '../components/Table'
 import AdminLayout from '../layouts/admin'
@@ -28,48 +30,57 @@ const headers = [
   }
 ]
 
-const rows = [
-  [1, 'Caneta Bic Azul', 'Unidade', 1, 'R$ 7,00'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99'],
-  [2, 'Bobina de papel para relógio de ponto', 'Unidade', 5, 'R$ 5,99']
-]
-
 export default function Produtos() {
+  const [products, setProducts] = useState([])
+  const [limit, setLimit] = useState(tableStore.get('limit'))
+  const [sort, setSort] = useState(tableStore.get('sort'))
+  const [order, setOrder] = useState(tableStore.get('order'))
+  const [page, setPage] = useState(tableStore.get('currentPage'))
+
+  // Listeners
   useEffect(() => {
-    tableStore.update('totalPages', 30)
-  })
+    tableStore.listen('limit', setLimit)
+    tableStore.listen('order', setOrder)
+    tableStore.listen('sort', setSort)
+    tableStore.listen('currentPage', setPage)
+  }, [])
+
+  useEffect(() => {
+    function makeRow(row: { [Key: string]: any }) {
+      return [
+        row.id,
+        row.name,
+        row.unity,
+        row.quantity,
+        row.last_price.toLocaleString('pt-br', {
+          style: 'currency',
+          currency: 'BRL'
+        })
+      ]
+    }
+
+    // Get products based on params
+    async function getProducts() {
+      const params = {
+        sort: tableStore.get('sort'),
+        order: tableStore.get('order'),
+        limit: tableStore.get('limit'),
+        page: tableStore.get('currentPage')
+      }
+
+      const { data } = await api.get('/products', {
+        params
+      })
+
+      tableStore.update('totalPages', Math.ceil(data.total / limit))
+
+      const rows = data.rows.map(makeRow)
+
+      setProducts(rows)
+    }
+
+    getProducts()
+  }, [limit, sort, order, page])
 
   return (
     <AdminLayout
@@ -79,7 +90,7 @@ export default function Produtos() {
     >
       <Table
         headers={headers}
-        rows={rows}
+        rows={products}
         withSearchbar={true}
         withFieldSearch={true}
       />

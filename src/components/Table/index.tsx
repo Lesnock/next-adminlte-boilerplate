@@ -1,5 +1,4 @@
 import { useEffect, useState, ReactNode } from 'react'
-import router from 'next/router'
 
 import Pagination from '../Pagination'
 import tableStore from '../../stores/TableStore'
@@ -33,8 +32,11 @@ export default function Table({
   const [sort, setSort] = useState(tableStore.get('sort'))
   const [order, setOrder] = useState(tableStore.get('order'))
 
-  tableStore.listen('sort', setSort)
-  tableStore.listen('order', setOrder)
+  // Listeners
+  useEffect(() => {
+    tableStore.listen('sort', setSort)
+    tableStore.listen('order', setOrder)
+  }, [])
 
   // Sort table
   const sortBy = (column: string) => {
