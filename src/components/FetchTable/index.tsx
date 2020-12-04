@@ -21,6 +21,7 @@ function FetchTable({ url, headers, router, makeRow }: FetchTableProps) {
   const [sort, setSort] = useState(tableStore.get('sort'))
   const [order, setOrder] = useState(tableStore.get('order'))
   const [page, setPage] = useState(tableStore.get('currentPage'))
+  const [fieldsearch, setFieldsearch] = useState(tableStore.get('fieldsearchs'))
 
   // Listeners
   useEffect(() => {
@@ -28,6 +29,7 @@ function FetchTable({ url, headers, router, makeRow }: FetchTableProps) {
     tableStore.listen('order', setOrder)
     tableStore.listen('sort', setSort)
     tableStore.listen('currentPage', setPage)
+    tableStore.listen('fieldsearchs', setFieldsearch)
   }, [])
 
   useEffect(() => {
@@ -38,10 +40,11 @@ function FetchTable({ url, headers, router, makeRow }: FetchTableProps) {
       await delay(500)
 
       const params = {
-        sort: tableStore.get('sort'),
-        order: tableStore.get('order'),
-        limit: tableStore.get('limit'),
-        page: tableStore.get('currentPage')
+        sort,
+        order,
+        limit,
+        page,
+        fieldsearch: JSON.stringify(fieldsearch)
       }
 
       const { data } = await api.get(url, {
@@ -64,13 +67,13 @@ function FetchTable({ url, headers, router, makeRow }: FetchTableProps) {
     }
 
     getResults()
-  }, [url, limit, sort, order, page, router, makeRow])
+  }, [url, limit, sort, order, page, fieldsearch, router, makeRow])
 
   return (
     <Table
       headers={headers}
       rows={results}
-      withSearchbar={true}
+      withSearchbar={false}
       withFieldSearch={true}
     />
   )

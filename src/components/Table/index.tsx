@@ -6,6 +6,8 @@ import { setURLParams } from '../../helpers'
 
 import Loading from '../Loading'
 import Pagination from '../Pagination'
+import SearchField from '../SearchField'
+
 import tableStore from '../../stores/TableStore'
 
 import styles from './Styles.module.css'
@@ -53,6 +55,17 @@ function Table({
     tableStore.update('order', newOrder)
 
     setURLParams(router, { sort: column, order: newOrder })
+  }
+
+  const searchBy = (column: string, search: string) => {
+    const fieldsearchs = tableStore.get('fieldsearchs')
+
+    if (fieldsearchs[column] !== search) {
+      tableStore.update('fieldsearchs', {
+        ...fieldsearchs,
+        [column]: search
+      })
+    }
   }
 
   // Get header icon according to header state
@@ -133,16 +146,7 @@ function Table({
                     <tr>
                       {headers.map((header, index) => (
                         <th key={index}>
-                          <input
-                            type="text"
-                            className="form-control float-right"
-                            placeholder={
-                              header.searchable
-                                ? `Pesquisar por ${header.label}`
-                                : '-'
-                            }
-                            disabled={!header.searchable}
-                          />
+                          <SearchField header={header} onChange={searchBy} />
                         </th>
                       ))}
                     </tr>

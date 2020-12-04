@@ -8,5 +8,6 @@ TableStore.add('limit', 2)
 TableStore.add('sort', 'id')
 TableStore.add('order', 'asc')
 TableStore.add('isLoading', false)
+TableStore.add('fieldsearchs', {})
 
 export default TableStore

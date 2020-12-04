@@ -13,7 +13,6 @@ import '../../public/adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css'
 
 import { AuthProvider } from '../contexts/AuthContext'
 import { ConfigProvider } from '../contexts/ConfigContext'
-import { PageStateProvider } from '../contexts/PageStateContext'
 
 function App({ Component, pageProps }: AppProps) {
   return (
@@ -27,10 +26,8 @@ function App({ Component, pageProps }: AppProps) {
 
       <ConfigProvider>
         <AuthProvider>
-          <PageStateProvider>
-            <ToastContainer />
-            <Component {...pageProps} />
-          </PageStateProvider>
+          <ToastContainer />
+          <Component {...pageProps} />
         </AuthProvider>
       </ConfigProvider>
     </>
