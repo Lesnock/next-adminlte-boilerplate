@@ -1,4 +1,7 @@
 import { useEffect, useState, ReactNode } from 'react'
+import { withRouter, Router } from 'next/router'
+
+import { setURLParams } from '../../helpers'
 
 import Loading from '../Loading'
 import Pagination from '../Pagination'
@@ -23,13 +26,14 @@ type TableProps = {
   withFieldSearch?: boolean
 }
 
-export default function Table({
+function Table({
   title = 'Tabela de Dados',
   headers = [],
   rows = [],
   withSearchbar = false,
-  withFieldSearch = false
-}: TableProps) {
+  withFieldSearch = false,
+  router
+}: TableProps & { router: Router }) {
   const [sort, setSort] = useState(tableStore.get('sort'))
   const [order, setOrder] = useState(tableStore.get('order'))
   const [isLoading, setIsLoading] = useState(tableStore.get('isLoading'))
@@ -43,12 +47,18 @@ export default function Table({
 
   // Sort table
   const sortBy = (column: string) => {
+    let newOrder = 'asc'
+
     if (sort === column && order === 'asc') {
-      return tableStore.update('order', 'desc')
+      newOrder = 'desc'
+    } else {
+      newOrder = 'asc'
     }
 
     tableStore.update('sort', column)
-    tableStore.update('order', 'asc')
+    tableStore.update('order', newOrder)
+
+    setURLParams(router, { sort: column, order: newOrder })
   }
 
   // Get header icon according to header state
@@ -163,3 +173,5 @@ export default function Table({
     </div>
   )
 }
+
+export default withRouter(Table)
