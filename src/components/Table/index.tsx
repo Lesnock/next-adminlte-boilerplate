@@ -1,5 +1,6 @@
 import { useEffect, useState, ReactNode } from 'react'
 
+import Loading from '../Loading'
 import Pagination from '../Pagination'
 import tableStore from '../../stores/TableStore'
 
@@ -31,11 +32,13 @@ export default function Table({
 }: TableProps) {
   const [sort, setSort] = useState(tableStore.get('sort'))
   const [order, setOrder] = useState(tableStore.get('order'))
+  const [isLoading, setIsLoading] = useState(tableStore.get('isLoading'))
 
   // Listeners
   useEffect(() => {
     tableStore.listen('sort', setSort)
     tableStore.listen('order', setOrder)
+    tableStore.listen('isLoading', setIsLoading)
   }, [])
 
   // Sort table
@@ -94,7 +97,11 @@ export default function Table({
               </div>
             </div>
 
-            <div className="card-body table-responsive table-bordered p-0">
+            <div
+              className="card-body table-responsive table-bordered p-0"
+              style={{ position: 'relative' }}
+            >
+              {isLoading && <Loading />}
               <table className="table text-nowrap">
                 <thead>
                   <tr>

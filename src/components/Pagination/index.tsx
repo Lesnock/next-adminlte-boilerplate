@@ -1,10 +1,11 @@
 import { useEffect, useState, MouseEvent } from 'react'
+import { withRouter } from 'next/router'
 
 import tableStore from '../../stores/TableStore'
 
-import { calculatePagination } from '../../helpers'
+import { calculatePagination, setURLParams } from '../../helpers'
 
-const Pagination = () => {
+const Pagination = ({ router }) => {
   const [currentPage, setCurrentPage] = useState(tableStore.get('currentPage'))
   const [totalPages, setTotalPages] = useState(tableStore.get('totalPages'))
 
@@ -37,6 +38,8 @@ const Pagination = () => {
     if (page < 1) {
       page = 1
     }
+
+    setURLParams(router, { page })
 
     tableStore.update('currentPage', page)
   }
@@ -113,4 +116,4 @@ const Pagination = () => {
   )
 }
 
-export default Pagination
+export default withRouter(Pagination)

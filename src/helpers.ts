@@ -1,3 +1,5 @@
+import { Router } from 'next/router'
+
 export function delay(time = 500) {
   return new Promise((resolve) => {
     setTimeout(resolve, time)
@@ -34,4 +36,15 @@ export function calculatePagination(total: number, currentPage: number) {
   const pages = range(firstPage, lastPage)
 
   return pages
+}
+
+// eslint-disable-next-line
+export function setURLParams(router: Router, params: { [key: string]: any }) {
+  router.push(
+    {
+      query: { ...router.query, ...params }
+    },
+    undefined,
+    { shallow: true }
+  )
 }

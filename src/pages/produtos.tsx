@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import api from '../services/api'
+import { delay } from '../helpers'
 
 import Table from '../components/Table'
 import AdminLayout from '../layouts/admin'
@@ -61,6 +62,10 @@ export default function Produtos() {
 
     // Get products based on params
     async function getProducts() {
+      tableStore.update('isLoading', true)
+
+      await delay(500)
+
       const params = {
         sort: tableStore.get('sort'),
         order: tableStore.get('order'),
@@ -77,6 +82,7 @@ export default function Produtos() {
       const rows = data.rows.map(makeRow)
 
       setProducts(rows)
+      tableStore.update('isLoading', false)
     }
 
     getProducts()
