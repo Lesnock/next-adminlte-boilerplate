@@ -56,7 +56,7 @@ function Table({
   }
 
   // Get header icon according to header state
-  const getSortableIcon = (header: Header) => {
+  const getSortableIcon = (header: TableHeader) => {
     if (!header.sortable) {
       return ''
     }
