@@ -1,5 +1,6 @@
 import { useEffect, useState, ReactNode } from 'react'
 import { withRouter, Router } from 'next/router'
+import { TableHeader } from '../../types'
 
 import { setURLParams } from '../../helpers'
 
@@ -9,18 +10,11 @@ import tableStore from '../../stores/TableStore'
 
 import styles from './Styles.module.css'
 
-type Header = {
-  label: string
-  name: string
-  sortable: boolean
-  searchable: boolean
-}
-
 type Row = Array<string | number | ReactNode>
 
 type TableProps = {
   title?: string
-  headers?: Header[]
+  headers?: TableHeader[]
   rows?: Row[]
   withSearchbar?: boolean
   withFieldSearch?: boolean

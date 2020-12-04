@@ -16,3 +16,10 @@ export interface Config {
     port: number
   }
 }
+
+export interface TableHeader {
+  label: string
+  name: string
+  sortable: boolean
+  searchable: boolean
+}
