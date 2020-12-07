@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react'
 
-import config from '../config/app'
-import { ReactProps, Config } from '../types'
+import config from 'config/app'
+import { ReactProps, Config } from 'types'
 
 const ConfigContext = createContext<Config>(config)
 

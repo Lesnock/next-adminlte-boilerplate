@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import AdminLayout from '../layouts/admin'
+import AdminLayout from 'layouts/admin'
 
 const NotFound = () => {
   return (

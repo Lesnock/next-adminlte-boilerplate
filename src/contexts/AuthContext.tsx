@@ -3,10 +3,10 @@ import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
 import { createContext, useState, useContext, useEffect } from 'react'
 
-import api from '../services/api'
-import { ReactProps, User } from '../types'
+import api from 'services/api'
+import { ReactProps, User } from 'types'
 
-import Loading from '../components/Loading'
+import Loading from 'components/Loading'
 
 interface Auth {
   isAuthenticated: boolean

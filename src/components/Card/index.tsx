@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ReactProps } from '../../types'
+import { ReactProps } from 'types'
 
 type CardProps = {
   title: string

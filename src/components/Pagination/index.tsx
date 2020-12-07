@@ -1,9 +1,9 @@
 import { useEffect, useState, MouseEvent } from 'react'
 import { withRouter } from 'next/router'
 
-import tableStore from '../../stores/TableStore'
+import tableStore from 'stores/TableStore'
 
-import { calculatePagination, setURLParams } from '../../helpers'
+import { calculatePagination, setURLParams } from 'helpers'
 
 const Pagination = ({ router }) => {
   const [currentPage, setCurrentPage] = useState(tableStore.get('currentPage'))

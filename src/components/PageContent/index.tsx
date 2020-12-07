@@ -1,8 +1,8 @@
 import React from 'react'
 import router from 'next/router'
 
-import { ReactProps } from '../../types'
-import Breadcrumb from '../Breadcrumb'
+import { ReactProps } from 'types'
+import Breadcrumb from 'components/Breadcrumb'
 
 type BreadcrumbItem = {
   name: string

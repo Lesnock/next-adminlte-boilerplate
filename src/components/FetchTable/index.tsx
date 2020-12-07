@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { withRouter, Router } from 'next/router'
-import { TableHeader } from '../../types'
+import { TableHeader } from 'types'
 
-import api from '../../services/api'
-import { delay, setURLParams, isEmptyObject } from '../../helpers'
+import api from 'services/api'
+import { delay, setURLParams, isEmptyObject } from 'helpers'
 
-import Table from '../Table'
-import tableStore from '../../stores/TableStore'
+import Table from 'components/Table'
+import tableStore from 'stores/TableStore'
 
 type FetchTableProps = {
   router: Router

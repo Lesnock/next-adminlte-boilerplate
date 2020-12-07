@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react'
 
-import { TableHeader } from '../../types'
+import { TableHeader } from 'types'
 
 type SearchFieldProps = {
   header: TableHeader

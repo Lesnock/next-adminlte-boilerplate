@@ -1,15 +1,14 @@
 import { useEffect, useState, ReactNode } from 'react'
 import { withRouter, Router } from 'next/router'
-import { TableHeader } from '../../types'
+import { TableHeader } from 'types'
 
-import { setURLParams } from '../../helpers'
+import { setURLParams } from 'helpers'
+import tableStore from 'stores/TableStore'
 
-import Loading from '../Loading'
-import SearchBar from '../SearchBar'
-import Pagination from '../Pagination'
-import SearchField from '../SearchField'
-
-import tableStore from '../../stores/TableStore'
+import Loading from 'components/Loading'
+import SearchBar from 'components/SearchBar'
+import Pagination from 'components/Pagination'
+import SearchField from 'components/SearchField'
 
 import styles from './Styles.module.css'
 

@@ -1,12 +1,12 @@
 import { PrivateRoute } from '../contexts/AuthContext'
 
 // Components
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
-import Sidebar from '../components/Sidebar'
-import PageContent from '../components/PageContent'
-import ControlSidebar from '../components/ControlSidebar'
-import { Card, CardText, CardButton } from '../components/Card'
+import Navbar from 'components/Navbar'
+import Footer from 'components/Footer'
+import Sidebar from 'components/Sidebar'
+import PageContent from 'components/PageContent'
+import ControlSidebar from 'components/ControlSidebar'
+import { Card, CardText, CardButton } from 'components/Card'
 
 export default function Home() {
   return (

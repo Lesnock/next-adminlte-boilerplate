@@ -1,12 +1,13 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-import AdminLayout from '../../layouts/admin'
-import Progress from '../../components/Progress'
-import tableStore from '../../stores/TableStore'
-import FetchTable from '../../components/FetchTable'
-import LinkButton from '../../components/LinkButton'
-import { BreadcrumbItem } from '../../components/Breadcrumb'
+import AdminLayout from 'layouts/admin'
+import tableStore from 'stores/TableStore'
+
+import Progress from 'components/Progress'
+import FetchTable from 'components/FetchTable'
+import LinkButton from 'components/LinkButton'
+import { BreadcrumbItem } from 'components/Breadcrumb'
 
 const breadcrumb: BreadcrumbItem[] = [
   { name: 'Home', link: '/' },

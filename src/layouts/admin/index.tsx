@@ -1,16 +1,16 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-import Navbar from '../../components/Navbar'
-import Footer from '../../components/Footer'
-import Sidebar from '../../components/Sidebar'
-import PageContent from '../../components/PageContent'
-import { PrivateRoute } from '../../contexts/AuthContext'
-import ControlSidebar from '../../components/ControlSidebar'
-import { BreadcrumbItem } from '../../components/Breadcrumb'
+import Navbar from 'components/Navbar'
+import Footer from 'components/Footer'
+import Sidebar from 'components/Sidebar'
+import PageContent from 'components/PageContent'
+import { PrivateRoute } from 'contexts/AuthContext'
+import ControlSidebar from 'components/ControlSidebar'
+import { BreadcrumbItem } from 'components/Breadcrumb'
 
-import { ReactProps } from '../../types'
-import tableStore from '../../stores/TableStore'
+import { ReactProps } from 'types'
+import tableStore from 'stores/TableStore'
 
 // Types
 type AdminLayoutProps = {

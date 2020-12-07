@@ -2,7 +2,7 @@ import { isPlainObject } from 'jquery'
 import React from 'react'
 import Link from 'next/link'
 
-import { ReactProps } from '../../types'
+import { ReactProps } from 'types'
 import styles from './Styles.module.css'
 
 type LinkButtonProps = {
