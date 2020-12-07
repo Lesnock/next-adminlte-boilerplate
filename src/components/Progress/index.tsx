@@ -2,13 +2,16 @@ import React, { useEffect, useState } from 'react'
 
 type ProgessProps = {
   percentage: number
+  type?: string
 }
 
-const Progress = ({ percentage }: ProgessProps) => {
-  const [type, setType] = useState('success')
+const Progress = ({ percentage, type }: ProgessProps) => {
+  const [_type, setType] = useState('success')
 
   useEffect(() => {
-    if (percentage < 10) {
+    if (type) {
+      setType(type)
+    } else if (percentage < 10) {
       setType('danger')
     } else if (percentage < 50) {
       setType('warning')
@@ -17,12 +20,12 @@ const Progress = ({ percentage }: ProgessProps) => {
     } else {
       setType('success')
     }
-  }, [percentage])
+  }, [percentage, type])
 
   return (
     <div className="progress progress-xs progress-striped active">
       <div
-        className={`progress-bar bg-${type}`}
+        className={`progress-bar bg-${_type}`}
         style={{ width: `${percentage}%` }}
       ></div>
     </div>
