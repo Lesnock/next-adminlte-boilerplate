@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react'
+import React, { ChangeEvent } from 'react'
 
 import { TableHeader } from '../../types'
 
@@ -8,9 +8,22 @@ type SearchField = {
 }
 
 const SearchField = ({ header, onChange }: SearchField) => {
-  const timeout = null
+  type Timeout = NodeJS.Timeout | undefined
 
-  const onType = (event: FormEvent<HTMLInputElement>) => {}
+  let timeout: Timeout = undefined
+  const done = 300
+
+  const onType = (event: ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault()
+
+    if (timeout) {
+      clearTimeout(timeout)
+    }
+
+    timeout = setTimeout(() => {
+      onChange(header.name, event.target.value)
+    }, done)
+  }
 
   return (
     <input
