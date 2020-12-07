@@ -19,7 +19,7 @@ export default function Home() {
           <div className="col-lg-6">
             <Card title="Produtos" type="primary" outline>
               <CardText>Todos os produtos incluídos no sistema.</CardText>
-              <CardButton href="/login">Ver todos</CardButton>
+              <CardButton href="/produtos">Ver todos</CardButton>
             </Card>
           </div>
         </PageContent>

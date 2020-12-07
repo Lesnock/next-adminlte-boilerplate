@@ -31,6 +31,10 @@ const Pagination = ({ router }) => {
   }
 
   const goTo = (page: number) => {
+    if (page === currentPage) {
+      return
+    }
+
     if (page > totalPages) {
       page = totalPages
     }
