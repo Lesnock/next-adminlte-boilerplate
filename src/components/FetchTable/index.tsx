@@ -17,6 +17,7 @@ type FetchTableProps = {
 
 function FetchTable({ url, headers, router, makeRow }: FetchTableProps) {
   const [results, setResults] = useState([])
+  const [search, setSearch] = useState(tableStore.get('search'))
   const [limit, setLimit] = useState(tableStore.get('limit'))
   const [sort, setSort] = useState(tableStore.get('sort'))
   const [order, setOrder] = useState(tableStore.get('order'))
@@ -27,6 +28,7 @@ function FetchTable({ url, headers, router, makeRow }: FetchTableProps) {
 
   // Listeners
   useEffect(() => {
+    tableStore.listen('search', setSearch)
     tableStore.listen('limit', setLimit)
     tableStore.listen('order', setOrder)
     tableStore.listen('sort', setSort)
@@ -49,6 +51,7 @@ function FetchTable({ url, headers, router, makeRow }: FetchTableProps) {
       await delay(500)
 
       const params = {
+        search,
         sort,
         order,
         limit,
@@ -77,7 +80,7 @@ function FetchTable({ url, headers, router, makeRow }: FetchTableProps) {
     }
 
     getResults()
-  }, [url, limit, sort, order, page, fieldsearchs, router, makeRow])
+  }, [url, search, limit, sort, order, page, fieldsearchs, router, makeRow])
 
   return (
     <Table

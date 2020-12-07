@@ -2,12 +2,12 @@ import React, { ChangeEvent } from 'react'
 
 import { TableHeader } from '../../types'
 
-type SearchField = {
+type SearchFieldProps = {
   header: TableHeader
   onChange: (column: string, search: string) => void
 }
 
-const SearchField = ({ header, onChange }: SearchField) => {
+const SearchField = ({ header, onChange }: SearchFieldProps) => {
   type Timeout = NodeJS.Timeout | undefined
 
   let timeout: Timeout = undefined

@@ -5,6 +5,7 @@ import { TableHeader } from '../../types'
 import { setURLParams } from '../../helpers'
 
 import Loading from '../Loading'
+import SearchBar from '../SearchBar'
 import Pagination from '../Pagination'
 import SearchField from '../SearchField'
 
@@ -53,12 +54,13 @@ function Table({
 
     tableStore.update('sort', column)
     tableStore.update('order', newOrder)
+    tableStore.update('currentPage', 1)
 
-    setURLParams(router, { sort: column, order: newOrder })
+    setURLParams(router, { sort: column, order: newOrder, page: 1 })
   }
 
   // Search by field
-  const searchBy = (column: string, search: string) => {
+  const searchByHeader = (column: string, search: string) => {
     const fieldsearchs = tableStore.get('fieldsearchs')
 
     if (search === '') {
@@ -76,6 +78,15 @@ function Table({
 
       tableStore.update('currentPage', 1)
     }
+  }
+
+  // Search by all
+  const search = (value: string) => {
+    if (value === '') {
+      return tableStore.update('search', undefined)
+    }
+
+    tableStore.update('search', value)
   }
 
   // Get header icon according to header state
@@ -103,24 +114,7 @@ function Table({
             <div className="card-header">
               <h3 className="card-title">{title}</h3>
               <div className="card-tools">
-                {withSearchbar && (
-                  <div
-                    className="input-group input-group-sm"
-                    style={{ width: 400 }}
-                  >
-                    <input
-                      type="text"
-                      name="table_search"
-                      className="form-control float-right"
-                      placeholder="Pesquisa"
-                    />
-                    <div className="input-group-append">
-                      <button type="submit" className="btn btn-default">
-                        <i className="fas fa-search" />
-                      </button>
-                    </div>
-                  </div>
-                )}
+                {withSearchbar && <SearchBar onChange={search} />}
               </div>
             </div>
 
@@ -161,7 +155,7 @@ function Table({
                             <th key={index}>
                               <SearchField
                                 header={header}
-                                onChange={searchBy}
+                                onChange={searchByHeader}
                               />
                             </th>
                           )
@@ -184,7 +178,9 @@ function Table({
               </table>
             </div>
 
-            <Pagination />
+            <div className="card-footer clearfix">
+              <Pagination />
+            </div>
           </div>
         </div>
       </div>

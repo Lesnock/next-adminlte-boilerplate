@@ -9,5 +9,6 @@ TableStore.add('sort', 'id')
 TableStore.add('order', 'asc')
 TableStore.add('isLoading', false)
 TableStore.add('fieldsearchs', {})
+TableStore.add('search', null)
 
 export default TableStore
