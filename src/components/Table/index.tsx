@@ -125,7 +125,7 @@ function Table({
             </div>
 
             <div
-              className="card-body table-responsive table-bordered p-0"
+              className="card-body table-responsive table-hover table-bordered p-0"
               style={{ position: 'relative' }}
             >
               {isLoading && <Loading />}
@@ -137,6 +137,7 @@ function Table({
                         <th
                           key={index}
                           className={header.sortable ? styles.sortable_th : ''}
+                          style={{ width: header.small ? '100px' : '' }}
                           onClick={() => {
                             if (header.sortable) sortBy(header.name)
                           }}
@@ -154,11 +155,20 @@ function Table({
 
                   {withFieldSearch && (
                     <tr>
-                      {headers.map((header, index) => (
-                        <th key={index}>
-                          <SearchField header={header} onChange={searchBy} />
-                        </th>
-                      ))}
+                      {headers.map((header, index) => {
+                        if (header.searchable) {
+                          return (
+                            <th key={index}>
+                              <SearchField
+                                header={header}
+                                onChange={searchBy}
+                              />
+                            </th>
+                          )
+                        } else {
+                          return <th key={index}></th>
+                        }
+                      })}
                     </tr>
                   )}
                 </thead>

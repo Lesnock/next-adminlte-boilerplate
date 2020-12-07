@@ -22,4 +22,5 @@ export interface TableHeader {
   name: string
   sortable: boolean
   searchable: boolean
+  small?: boolean
 }

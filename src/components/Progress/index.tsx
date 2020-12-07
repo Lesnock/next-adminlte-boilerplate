@@ -23,7 +23,10 @@ const Progress = ({ percentage, type }: ProgessProps) => {
   }, [percentage, type])
 
   return (
-    <div className="progress progress-xs progress-striped active">
+    <div
+      className="progress progress-xs progress-striped active"
+      style={{ minWidth: '200px' }}
+    >
       <div
         className={`progress-bar bg-${_type}`}
         style={{ width: `${percentage}%` }}

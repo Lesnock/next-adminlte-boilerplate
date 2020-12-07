@@ -83,8 +83,8 @@ function FetchTable({ url, headers, router, makeRow }: FetchTableProps) {
     <Table
       headers={headers}
       rows={results}
-      withSearchbar={false}
-      withFieldSearch={true}
+      withSearchbar={true}
+      withFieldSearch={false}
     />
   )
 }
