@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 import AdminLayout from '../layouts/admin'
+import Progress from '../components/Progress'
 import tableStore from '../stores/TableStore'
 import FetchTable from '../components/FetchTable'
 import { BreadcrumbItem } from '../components/Breadcrumb'
@@ -15,18 +16,13 @@ const headers = [
   { label: 'ID', name: 'id', sortable: true, searchable: true },
   { label: 'Nome', name: 'name', sortable: true, searchable: true },
   {
-    label: 'Unid. de Medida',
-    name: 'unity',
-    sortable: true,
-    searchable: true
-  },
-  { label: 'Qtd.', name: 'quantity', sortable: true, searchable: true },
-  {
-    label: 'Último preço',
+    label: 'Preço',
     name: 'last_price',
     sortable: true,
     searchable: false
-  }
+  },
+  { label: 'Qtd.', name: 'quantity', sortable: true, searchable: true },
+  { label: 'Estoque', name: 'stock', sortable: false, searchable: false }
 ]
 
 function Produtos() {
@@ -43,12 +39,12 @@ function Produtos() {
     return [
       row.id,
       row.name,
-      row.unity,
-      row.quantity,
       row.last_price.toLocaleString('pt-br', {
         style: 'currency',
         currency: 'BRL'
-      })
+      }),
+      row.quantity,
+      <Progress key={row.id} percentage={40} />
     ]
   }
 
