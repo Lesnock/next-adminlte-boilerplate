@@ -1,6 +1,8 @@
 import AdminLayout from '../layouts/admin'
+import tableStore from '../stores/TableStore'
 import FetchTable from '../components/FetchTable'
 import { BreadcrumbItem } from '../components/Breadcrumb'
+import { useEffect } from 'react'
 
 const breadcrumb: BreadcrumbItem[] = [
   { name: 'Home', link: '/' },
@@ -26,6 +28,11 @@ const headers = [
 ]
 
 function Produtos() {
+  useEffect(() => {
+    tableStore.update('sort', 'id')
+    tableStore.update('order', 'desc')
+  }, [])
+
   // eslint-disable-next-line
   function makeRow(row: { [Key: string]: any }) {
     return [

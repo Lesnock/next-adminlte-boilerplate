@@ -1,5 +1,4 @@
 import { PrivateRoute } from '../contexts/AuthContext'
-import TableStore from '../stores/TableStore'
 
 // Components
 import Navbar from '../components/Navbar'
@@ -10,7 +9,6 @@ import ControlSidebar from '../components/ControlSidebar'
 import { Card, CardText, CardButton } from '../components/Card'
 
 export default function Home() {
-  console.log(TableStore.get('page'))
   return (
     <PrivateRoute>
       <div className="wrapper">
