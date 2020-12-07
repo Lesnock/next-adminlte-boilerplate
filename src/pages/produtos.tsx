@@ -5,6 +5,7 @@ import AdminLayout from '../layouts/admin'
 import Progress from '../components/Progress'
 import tableStore from '../stores/TableStore'
 import FetchTable from '../components/FetchTable'
+import LinkButton from '../components/LinkButton'
 import { BreadcrumbItem } from '../components/Breadcrumb'
 
 const breadcrumb: BreadcrumbItem[] = [
@@ -59,17 +60,13 @@ function Produtos() {
       <Progress key={row.id} percentage={Math.random() * 100} />,
       row.quantity,
       <>
-        <button type="button" className="btn btn-success btn-sm">
+        <LinkButton type="success" href={`/produtos/edit/${row.id}`}>
           Editar
-        </button>
+        </LinkButton>
 
-        <button
-          type="button"
-          className="btn btn-danger btn-sm"
-          style={{ marginLeft: '5px' }}
-        >
+        <LinkButton type="danger" href={`/produtos/edit/${row.id}`}>
           Excluir
-        </button>
+        </LinkButton>
       </>
     ]
   }

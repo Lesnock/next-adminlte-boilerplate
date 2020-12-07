@@ -48,7 +48,7 @@ export default function AdminLayout({
   return (
     <PrivateRoute>
       <div className="wrapper">
-        <Navbar withSearch={true} />
+        <Navbar withSearch={false} />
         <Sidebar actives={actives} />
 
         <PageContent title={title} breadcrumb={breadcrumb}>
