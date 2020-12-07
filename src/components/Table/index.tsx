@@ -57,14 +57,24 @@ function Table({
     setURLParams(router, { sort: column, order: newOrder })
   }
 
+  // Search by field
   const searchBy = (column: string, search: string) => {
     const fieldsearchs = tableStore.get('fieldsearchs')
+
+    if (search === '') {
+      delete fieldsearchs[column]
+      tableStore.update('fieldsearchs', fieldsearchs)
+      tableStore.update('currentPage', 1)
+      return
+    }
 
     if (fieldsearchs[column] !== search) {
       tableStore.update('fieldsearchs', {
         ...fieldsearchs,
         [column]: search
       })
+
+      tableStore.update('currentPage', 1)
     }
   }
 

@@ -48,3 +48,12 @@ export function setURLParams(router: Router, params: { [key: string]: any }) {
     { shallow: true }
   )
 }
+
+/**
+ * Verify if a object is empty
+ * @param object
+ */
+// eslint-disable-next-line
+export function isEmptyObject(object: { [key: string]: any }) {
+  return Object.keys(object).length === 0
+}

@@ -3,7 +3,7 @@ import { withRouter, Router } from 'next/router'
 import { TableHeader } from '../../types'
 
 import api from '../../services/api'
-import { delay, setURLParams } from '../../helpers'
+import { delay, setURLParams, isEmptyObject } from '../../helpers'
 
 import Table from '../Table'
 import tableStore from '../../stores/TableStore'
@@ -21,7 +21,9 @@ function FetchTable({ url, headers, router, makeRow }: FetchTableProps) {
   const [sort, setSort] = useState(tableStore.get('sort'))
   const [order, setOrder] = useState(tableStore.get('order'))
   const [page, setPage] = useState(tableStore.get('currentPage'))
-  const [fieldsearch, setFieldsearch] = useState(tableStore.get('fieldsearchs'))
+  const [fieldsearchs, setFieldsearchs] = useState(
+    tableStore.get('fieldsearchs')
+  )
 
   // Listeners
   useEffect(() => {
@@ -29,7 +31,14 @@ function FetchTable({ url, headers, router, makeRow }: FetchTableProps) {
     tableStore.listen('order', setOrder)
     tableStore.listen('sort', setSort)
     tableStore.listen('currentPage', setPage)
-    tableStore.listen('fieldsearchs', setFieldsearch)
+    tableStore.listen('fieldsearchs', (value) => {
+      // If object is empty, change to undefined
+      if (isEmptyObject(value)) {
+        return setFieldsearchs(undefined)
+      }
+
+      setFieldsearchs(value)
+    })
   }, [])
 
   useEffect(() => {
@@ -44,14 +53,15 @@ function FetchTable({ url, headers, router, makeRow }: FetchTableProps) {
         order,
         limit,
         page,
-        fieldsearch: JSON.stringify(fieldsearch)
+        fieldsearch: JSON.stringify(fieldsearchs)
       }
 
       const { data } = await api.get(url, {
         params
       })
 
-      const totalPages = Math.ceil(data.total / limit)
+      // Total pages will be at least 1
+      const totalPages = Math.max(1, Math.ceil(data.total / limit))
 
       if (page > totalPages) {
         setURLParams(router, { page: 1 })
@@ -67,7 +77,7 @@ function FetchTable({ url, headers, router, makeRow }: FetchTableProps) {
     }
 
     getResults()
-  }, [url, limit, sort, order, page, fieldsearch, router, makeRow])
+  }, [url, limit, sort, order, page, fieldsearchs, router, makeRow])
 
   return (
     <Table

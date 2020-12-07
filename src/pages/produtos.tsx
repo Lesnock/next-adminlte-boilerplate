@@ -1,8 +1,10 @@
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+
 import AdminLayout from '../layouts/admin'
 import tableStore from '../stores/TableStore'
 import FetchTable from '../components/FetchTable'
 import { BreadcrumbItem } from '../components/Breadcrumb'
-import { useEffect } from 'react'
 
 const breadcrumb: BreadcrumbItem[] = [
   { name: 'Home', link: '/' },
@@ -28,10 +30,13 @@ const headers = [
 ]
 
 function Produtos() {
+  const router = useRouter()
+
   useEffect(() => {
-    tableStore.update('sort', 'id')
-    tableStore.update('order', 'desc')
-  }, [])
+    tableStore.update('sort', router.query.sort || 'id')
+    tableStore.update('order', router.query.order || 'desc')
+    tableStore.update('limit', router.query.limit || 4)
+  }, []) //eslint-disable-line
 
   // eslint-disable-next-line
   function makeRow(row: { [Key: string]: any }) {
