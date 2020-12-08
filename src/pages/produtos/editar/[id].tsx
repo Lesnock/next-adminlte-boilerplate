@@ -1,9 +1,12 @@
-import { number } from 'validations'
+import { number, string } from 'validations'
 
 import AdminLayout from 'layouts/admin'
 
+import Row from 'components/Row'
 import Form from 'components/Form'
-import InputText from 'components/InputText'
+import Input from 'components/Input'
+import { Card } from 'components/Card'
+import Submit from 'components/Submit'
 import { BreadcrumbItem } from 'components/Breadcrumb'
 
 const breadcrumb: BreadcrumbItem[] = [
@@ -18,7 +21,8 @@ const Edit = () => {
   }
 
   const validations = {
-    name: number('nome').nullable().required('O campo nome é obrigatório')
+    name: string('nome').nullable().required(),
+    quantity: number('quantidade').min(0).nullable().required()
   }
 
   return (
@@ -28,12 +32,20 @@ const Edit = () => {
       breadcrumb={breadcrumb}
     >
       <Form onSubmit={onSubmit} validations={validations}>
-        <InputText
-          label="Nome do produto"
-          name="name"
-          placeholder="Nome do produto"
-        ></InputText>
-        <input type="submit" value="Enviar" />
+        <Card title="Cadastro" type="primary">
+          <Row>
+            <Input label="Nome" col={6} name="name"></Input>
+
+            <Input
+              label="Quantidade"
+              type="number"
+              col={2}
+              name="quantity"
+            ></Input>
+          </Row>
+
+          <Submit>Enviar</Submit>
+        </Card>
       </Form>
     </AdminLayout>
   )

@@ -19,6 +19,7 @@ export function Card({
         ${type ? 'card-' + type : ''}
         ${outline ? 'card-outline' : null}
       `}
+      style={{ width: '100%' }}
     >
       <div className="card-header">
         <h5 className="m-0">{title}</h5>
@@ -58,4 +59,8 @@ export function CardLink({
       <a className="card-link">{children}</a>
     </Link>
   )
+}
+
+export function CardFooter({ children }) {
+  return <div className="card-footer">{children}</div>
 }

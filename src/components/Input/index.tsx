@@ -9,7 +9,7 @@ type Props = {
   [prop: string]: any //eslint-disable-line
 }
 
-const InputText = ({ label, name, col = 3, ...rest }: Props) => {
+const Input = ({ label, name, col = 3, ...rest }: Props) => {
   const { updateValue, initialData, errors } = useForm()
   const [isInvalid, setIsInvalid] = useState(false)
 
@@ -37,4 +37,4 @@ const InputText = ({ label, name, col = 3, ...rest }: Props) => {
   )
 }
 
-export default InputText
+export default Input

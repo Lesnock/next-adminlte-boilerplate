@@ -1,8 +1,8 @@
 import React from 'react'
 import { ReactProps } from 'types'
 
-const FormRow = ({ children }: ReactProps) => {
+const Row = ({ children }: ReactProps) => {
   return <div className="row">{children}</div>
 }
 
-export default FormRow
+export default Row
