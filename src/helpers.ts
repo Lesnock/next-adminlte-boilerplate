@@ -57,3 +57,21 @@ export function setURLParams(router: Router, params: { [key: string]: any }) {
 export function isEmptyObject(object: { [key: string]: any }) {
   return Object.keys(object).length === 0
 }
+
+/**
+ * Transform all empty strings in null inside a object
+ * @param object
+ */
+export function emptyKeysToNull(object = {}) {
+  const cleaned = {}
+
+  Object.keys(object).forEach((key) => {
+    if (object[key] === '') {
+      cleaned[key] = null
+    } else {
+      cleaned[key] = object[key]
+    }
+  })
+
+  return cleaned
+}

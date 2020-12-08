@@ -19,7 +19,8 @@
     "next": "10.0.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "react-toastify": "^6.1.0"
+    "react-toastify": "^6.1.0",
+    "yup": "^0.32.6"
   },
   "devDependencies": {
     "@types/bootstrap": "^5.0.0",
