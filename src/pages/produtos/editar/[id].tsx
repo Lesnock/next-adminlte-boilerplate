@@ -1,4 +1,8 @@
+import router from 'next/router'
 import { number, string } from 'validations'
+
+import api from 'services/api'
+import { delay } from 'helpers'
 
 import AdminLayout from 'layouts/admin'
 
@@ -9,6 +13,7 @@ import Select from 'components/Select'
 import { Card } from 'components/Card'
 import Submit from 'components/Submit'
 import { BreadcrumbItem } from 'components/Breadcrumb'
+import { useEffect, useState } from 'react'
 
 const breadcrumb: BreadcrumbItem[] = [
   { name: 'Home', link: '/' },
@@ -17,9 +22,19 @@ const breadcrumb: BreadcrumbItem[] = [
 ]
 
 const Edit = () => {
-  const onSubmit = (values) => {
-    console.log('enviou', values)
-  }
+  const [products, setProducts] = useState({})
+
+  useEffect(() => {
+    async function getProducts() {
+      const { data: products } = await api.get('/products/' + router.query.id)
+
+      setProducts(products)
+    }
+
+    getProducts()
+  })
+
+  const onSubmit = (values) => {}
 
   const validations = {
     name: string('nome').nullable().required(),
@@ -29,20 +44,12 @@ const Edit = () => {
     unity: string('unidade de medida').nullable().required()
   }
 
-  const initialData = {
-    name: 'Caneta Azul',
-    quantity: 10,
-    min_quantity: 5,
-    max_quantity: 20,
-    unity: 1
-  }
-
   return (
     <AdminLayout title="" actives={['products']} breadcrumb={breadcrumb}>
       <Form
         onSubmit={onSubmit}
         validations={validations}
-        initialData={initialData}
+        initialData={products}
       >
         <div className="col-md-12">
           <Card title="Cadastro de produto" type="primary">
