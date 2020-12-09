@@ -10,6 +10,8 @@ import 'styles/globals.css'
 import '../../public/adminlte/plugins/fontawesome-free/css/all.min.css'
 import '../../public/adminlte/dist/css/adminlte.min.css'
 import '../../public/adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css'
+import '../../public/adminlte/plugins/select2/css/select2.min.css'
+import '../../public/adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'
 
 import { AuthProvider } from '../contexts/AuthContext'
 import { ConfigProvider } from '../contexts/ConfigContext'

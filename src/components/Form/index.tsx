@@ -1,11 +1,12 @@
 /* eslint-disable */
-import { createContext, useState, useContext, FormEvent } from 'react'
+import { createContext, useState, useContext, useCallback, FormEvent, useEffect } from 'react'
 import { AnySchema, ValidationError, object } from 'yup'
 
 import { ReactProps } from 'types'
 import { isEmptyObject, emptyKeysToNull } from 'helpers'
 
 type FormContextType = {
+  registerField: (name: string) => void
   updateValue: (name: string, value: any) => void
   initialData: { [key: string]: any }
   errors: { [key: string]: string }
@@ -13,6 +14,7 @@ type FormContextType = {
 }
 
 const FormContext = createContext<FormContextType>({
+  registerField: (name: string) => {},
   updateValue: (name: string, value: any) => {},
   initialData: {},
   errors: {},
@@ -26,11 +28,17 @@ type FormProps = {
 }
 
 const Form = ({ children, initialData = {}, validations = {}, onSubmit }: ReactProps & FormProps) => {
-  const [values, setValues] = useState({})
+  const [fields, setFields] = useState(() => ({}))
   const [errors, setErrors] = useState({})
 
+  const registerField = useCallback((name: string) => {
+    setFields(prev => {
+      return { ...prev, [name]: initialData[name] }
+    })
+  }, [])
+
   function updateValue(name: string, value: any) {
-    setValues({ ...values, [name]: value })
+    setFields({ ...fields, [name]: value })
   }
 
   function getFieldError(name: string) {
@@ -40,14 +48,14 @@ const Form = ({ children, initialData = {}, validations = {}, onSubmit }: ReactP
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    const cleanData = emptyKeysToNull(values)
+    const cleanData = emptyKeysToNull(fields)
 
     if (!isEmptyObject(validations)) {
       try {
         const validated = object(validations).validateSync(cleanData, { abortEarly: false })
 
         if (validated) {
-          setValues(validated)
+          setFields(validated)
         }
 
         // Clean errors
@@ -74,7 +82,7 @@ const Form = ({ children, initialData = {}, validations = {}, onSubmit }: ReactP
   }
 
   return (
-    <FormContext.Provider value={{ initialData, updateValue, errors, getFieldError }}>
+    <FormContext.Provider value={{ initialData, updateValue, errors, getFieldError, registerField }}>
       <form style={{ width: '100%' }} onSubmit={submit}>
         {children}
       </form>

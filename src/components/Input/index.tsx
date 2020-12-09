@@ -9,9 +9,13 @@ type Props = {
   [prop: string]: any //eslint-disable-line
 }
 
-const Input = ({ label, name, col = 3, ...rest }: Props) => {
-  const { updateValue, initialData, errors } = useForm()
+const Input = ({ label, name, col = 6, ...rest }: Props) => {
+  const { registerField, updateValue, initialData, errors } = useForm()
   const [isInvalid, setIsInvalid] = useState(false)
+
+  useEffect(() => {
+    registerField(name)
+  }, []) //eslint-disable-line
 
   useEffect(() => {
     setIsInvalid(!!errors[name])
@@ -25,7 +29,7 @@ const Input = ({ label, name, col = 3, ...rest }: Props) => {
           type="text"
           name={name}
           className={`form-control ${isInvalid ? 'is-invalid' : ''}`}
-          value={initialData[name]}
+          defaultValue={initialData[name]}
           onChange={(event) => updateValue(name, event.target.value)}
           {...rest}
         />
