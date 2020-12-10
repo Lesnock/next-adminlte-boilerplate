@@ -20,21 +20,23 @@ const breadcrumb: BreadcrumbItem[] = [
   { name: 'Editar', active: true }
 ]
 
+const validations = {
+  name: string('nome').nullable().required(),
+  ncm: string('ncm').nullable(),
+  protheus_cod: string('protheus_cod').nullable(),
+  quantity: number('quantidade').min(0).nullable().required(),
+  min_quantity: number('estoque mínimo').min(0).nullable().required(),
+  max_quantity: number('estoque máximo').nullable(),
+  unity: string('unidade de medida').nullable().required()
+}
+
 const Edit = ({ product, error }) => {
   if (error) {
     toast.error('Erro: ' + error)
   }
 
-  const onSubmit = (values) => {}
-
-  const validations = {
-    name: string('nome').nullable().required(),
-    ncm: string('ncm').nullable(),
-    protheus_cod: string('protheus_cod').nullable(),
-    quantity: number('quantidade').min(0).nullable().required(),
-    min_quantity: number('estoque mínimo').min(0).nullable().required(),
-    max_quantity: number('estoque máximo').nullable(),
-    unity: string('unidade de medida').nullable().required()
+  const onSubmit = (values) => {
+    console.log('onSubmit')
   }
 
   return (
@@ -90,6 +92,7 @@ const Edit = ({ product, error }) => {
   )
 }
 
+// Get the specific product
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { id } = context.query
 

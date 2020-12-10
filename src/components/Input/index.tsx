@@ -15,7 +15,7 @@ const Input = ({ label, name, col = 6, ...rest }: Props) => {
 
   useEffect(() => {
     registerField(name)
-  }, [registerField]) //eslint-disable-line
+  }, [registerField, name])
 
   useEffect(() => {
     setIsInvalid(!!errors[name])

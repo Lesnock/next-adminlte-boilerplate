@@ -32,27 +32,30 @@ const Form = ({ children, initialData = {}, validations = {}, onSubmit }: ReactP
   const [errors, setErrors] = useState({})
 
   const registerField = useCallback((name: string) => {
-    setFields(prev => {
+    return setFields(prev => {
       return { ...prev, [name]: initialData[name] }
     })
   }, [])
 
   const updateValue = useCallback((name: string, value: any) => {
-    setFields({ ...fields, [name]: value })
+    setFields(prev => {
+      return { ...prev, [name]: value }
+    })
   }, [])
 
   const getFieldError = useCallback((name: string) => {
     return errors[name]
   }, [])
 
-  const submit = useCallback((event: FormEvent<HTMLFormElement>) => {
+  const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+
+    console.log(fields)
 
     const cleanData = emptyKeysToNull(fields)
 
     if (!isEmptyObject(validations)) {
       try {
-        console.log(cleanData)
         const validated = object(validations).validateSync(cleanData, { abortEarly: false })
 
         if (validated) {
@@ -80,7 +83,7 @@ const Form = ({ children, initialData = {}, validations = {}, onSubmit }: ReactP
       // Submit
       onSubmit(cleanData)
     }
-  }, [])
+  }
 
   return (
     <FormContext.Provider value={{ initialData, updateValue, errors, getFieldError, registerField }}>

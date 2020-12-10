@@ -21,7 +21,7 @@ const Select = ({ name, label, col = 6, options = [] }: Props) => {
   // Register field
   useEffect(() => {
     registerField(name)
-  }, []) //eslint-disable-line
+  }, [registerField, name])
 
   // Set isInvalid
   useEffect(() => {
