@@ -1,7 +1,10 @@
-import { GetServerSidePropsContext } from 'next'
+import { useState } from 'react'
+
 import { toast } from 'react-toastify'
 import { number, string } from 'validations'
+import { GetServerSidePropsContext } from 'next'
 
+import { delay } from 'helpers'
 import api, { apiFromServer } from 'services/api'
 
 import AdminLayout from 'layouts/admin'
@@ -12,6 +15,7 @@ import Input from 'components/Input'
 import Select from 'components/Select'
 import { Card } from 'components/Card'
 import Submit from 'components/Submit'
+import Loading from 'components/Loading'
 import { BreadcrumbItem } from 'components/Breadcrumb'
 
 const breadcrumb: BreadcrumbItem[] = [
@@ -31,16 +35,23 @@ const validations = {
 }
 
 const Edit = ({ product, error }) => {
+  const [isLoading, setIsLoading] = useState(false)
+
   if (error) {
     toast.error('Erro: ' + error)
   }
 
   async function onSubmit(fields) {
+    setIsLoading(true)
+    await delay(500)
+
     try {
       await api.put(`/products/${product.id}`, fields)
       toast.success(`Produto salvo com sucesso`)
     } catch (error) {
-      toast.error('Erro: ' + error.message)
+      toast.error(error.message)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -48,6 +59,7 @@ const Edit = ({ product, error }) => {
     <AdminLayout title="" actives={['products']} breadcrumb={breadcrumb}>
       <Form onSubmit={onSubmit} validations={validations} initialData={product}>
         <div className="col-md-8">
+          {isLoading && <Loading />}
           <Card title="Propriedades" type="primary">
             <Row>
               <Input label="Nome" name="name"></Input>

@@ -1,9 +1,11 @@
 /* eslint-disable */
-import { createContext, useState, useContext, useCallback, FormEvent, useEffect } from 'react'
+import { createContext, useState, useContext, useCallback, FormEvent } from 'react'
 import { AnySchema, ValidationError, object } from 'yup'
 
 import { ReactProps } from 'types'
 import { isEmptyObject, emptyKeysToNull } from 'helpers'
+
+import Loading from 'components/Loading'
 
 type FormContextType = {
   registerField: (name: string) => void
@@ -24,10 +26,11 @@ const FormContext = createContext<FormContextType>({
 type FormProps = {
   initialData?: { [key: string]: any }
   validations?: { [key: string]: AnySchema }
+  isLoading?: boolean
   onSubmit: (values: { [key: string]: any }) => any
 }
 
-const Form = ({ children, initialData = {}, validations = {}, onSubmit }: ReactProps & FormProps) => {
+const Form = ({ children, initialData = {}, validations = {}, isLoading = false, onSubmit }: ReactProps & FormProps) => {
   const [fields, setFields] = useState({})
   const [errors, setErrors] = useState({})
 
@@ -47,7 +50,7 @@ const Form = ({ children, initialData = {}, validations = {}, onSubmit }: ReactP
     return errors[name]
   }, [])
 
-  const submit = (event: FormEvent<HTMLFormElement>) => {
+  async function submit (event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
     const cleanData = emptyKeysToNull(fields)
@@ -79,13 +82,14 @@ const Form = ({ children, initialData = {}, validations = {}, onSubmit }: ReactP
       setErrors({})
 
       // Submit
-      onSubmit(cleanData)
+      await onSubmit(cleanData)
     }
   }
 
   return (
     <FormContext.Provider value={{ initialData, updateValue, errors, getFieldError, registerField }}>
-      <form style={{ width: '100%' }} onSubmit={submit}>
+      <form style={{ width: '100%', position: 'relative' }} onSubmit={submit} >
+        {isLoading && <Loading />}
         {children}
       </form>
     </FormContext.Provider>
