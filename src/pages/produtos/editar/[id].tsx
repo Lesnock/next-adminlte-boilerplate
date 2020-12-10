@@ -2,7 +2,7 @@ import { GetServerSidePropsContext } from 'next'
 import { toast } from 'react-toastify'
 import { number, string } from 'validations'
 
-import { apiFromServer } from 'services/api'
+import api, { apiFromServer } from 'services/api'
 
 import AdminLayout from 'layouts/admin'
 
@@ -35,8 +35,13 @@ const Edit = ({ product, error }) => {
     toast.error('Erro: ' + error)
   }
 
-  const onSubmit = (values) => {
-    console.log('onSubmit')
+  async function onSubmit(fields) {
+    try {
+      await api.put(`/products/${product.id}`, fields)
+      toast.success(`Produto salvo com sucesso`)
+    } catch (error) {
+      toast.error('Erro: ' + error.message)
+    }
   }
 
   return (

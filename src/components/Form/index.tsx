@@ -50,8 +50,6 @@ const Form = ({ children, initialData = {}, validations = {}, onSubmit }: ReactP
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    console.log(fields)
-
     const cleanData = emptyKeysToNull(fields)
 
     if (!isEmptyObject(validations)) {

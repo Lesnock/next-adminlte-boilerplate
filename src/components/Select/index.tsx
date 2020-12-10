@@ -28,13 +28,6 @@ const Select = ({ name, label, col = 6, options = [] }: Props) => {
     setIsInvalid(!!errors[name])
   }, [errors, name])
 
-  //Initialize Select2 Elements
-  // useEffect(() => {
-  //   $('.select2').select2({
-  //     theme: 'bootstrap4'
-  //   })
-  // })
-
   return (
     <div className={`col col-${col}`}>
       <div className="form-group">
