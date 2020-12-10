@@ -15,3 +15,7 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.card + .card {
+  margin-top: 20px;
+}

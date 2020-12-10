@@ -100,15 +100,8 @@ function MenuItem({ item, actives }: { item: SidebarItem; actives: string[] }) {
         ${item.hasTreeView && actives.includes(item.slug) && 'menu-open'}
         `}
     >
-      <Link href={item.link || '#'}>
-        <a className={`nav-link ${actives.includes(item.slug) && 'active'}`}>
-          <i className={`nav-icon ${item.icon}`}></i>
-          <p>
-            {item.name}
-            {item.hasTreeView && <i className="right fas fa-angle-left"></i>}
-          </p>
-        </a>
-      </Link>
+      <MenuLink item={item} actives={actives} />
+
       {item.subitems && item.subitems.length > 0 && (
         <ul className="nav nav-treeview">
           {item.subitems?.map((subitem, index) => (
@@ -118,4 +111,33 @@ function MenuItem({ item, actives }: { item: SidebarItem; actives: string[] }) {
       )}
     </li>
   )
+}
+
+function MenuLink({ item, actives }) {
+  if (item.hasTreeView) {
+    return (
+      <a
+        href={item.link || '/#'}
+        className={`nav-link ${actives.includes(item.slug) && 'active'}`}
+      >
+        <i className={`nav-icon ${item.icon}`}></i>
+        <p>
+          {item.name}
+          {item.hasTreeView && <i className="right fas fa-angle-left"></i>}
+        </p>
+      </a>
+    )
+  } else {
+    return (
+      <Link href={item.link || '/#'}>
+        <a className={`nav-link ${actives.includes(item.slug) && 'active'}`}>
+          <i className={`nav-icon ${item.icon}`}></i>
+          <p>
+            {item.name}
+            {item.hasTreeView && <i className="right fas fa-angle-left"></i>}
+          </p>
+        </a>
+      </Link>
+    )
+  }
 }

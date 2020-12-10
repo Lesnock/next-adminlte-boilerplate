@@ -44,4 +44,19 @@ api.interceptors.response.use(
   }
 )
 
+export function apiFromServer(context) {
+  // Add token
+  api.interceptors.request.use((request) => {
+    const [, token] = context.req.headers.cookie.split('token=')
+
+    if (token) {
+      request.headers.Authorization = `Bearer ${token}`
+    }
+
+    return request
+  })
+
+  return api
+}
+
 export default api

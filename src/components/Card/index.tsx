@@ -5,12 +5,14 @@ type CardProps = {
   title: string
   type?: string
   outline?: boolean
+  closeable?: boolean
 }
 
 export function Card({
   title,
   type,
   outline = false,
+  closeable = true,
   children
 }: ReactProps & CardProps) {
   return (
@@ -22,7 +24,19 @@ export function Card({
       style={{ width: '100%' }}
     >
       <div className="card-header">
-        <h5 className="m-0">{title}</h5>
+        <h5 className="card-title">{title}</h5>
+
+        {closeable && (
+          <div className="card-tools">
+            <button
+              type="button"
+              className="btn btn-tool"
+              data-card-widget="collapse"
+            >
+              <i className="fas fa-minus"></i>
+            </button>
+          </div>
+        )}
       </div>
       <div className="card-body">{children}</div>
     </div>
