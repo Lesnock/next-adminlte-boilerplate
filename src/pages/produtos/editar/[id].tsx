@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { toast } from 'react-toastify'
 import { number, string } from 'validations'
@@ -16,6 +16,7 @@ import Select from 'components/Select'
 import { Card } from 'components/Card'
 import Submit from 'components/Submit'
 import Loading from 'components/Loading'
+import InputMoney from 'components/InputMoney'
 import { BreadcrumbItem } from 'components/Breadcrumb'
 
 const breadcrumb: BreadcrumbItem[] = [
@@ -28,7 +29,7 @@ const validations = {
   name: string('nome').nullable().required(),
   ncm: string('ncm').nullable(),
   protheus_cod: string('protheus_cod').nullable(),
-  last_price: number('último preço pago').nullable().required(),
+  last_price: string('último preço pago').nullable(),
   quantity: number('quantidade').min(0).nullable().required(),
   min_quantity: number('estoque mínimo').min(0).nullable().required(),
   max_quantity: number('estoque máximo').nullable(),
@@ -45,6 +46,8 @@ const Edit = ({ product, error }) => {
   async function onSubmit(fields) {
     setIsLoading(true)
     await delay(500)
+
+    // console.log(fields)
 
     try {
       await api.put(`/products/${product.id}`, fields)
@@ -82,11 +85,11 @@ const Edit = ({ product, error }) => {
                 ]}
               />
 
-              <Input
+              <InputMoney
                 label="Último preço pago (R$)"
                 name="last_price"
                 col={6}
-              ></Input>
+              ></InputMoney>
             </Row>
           </Card>
           <Card title="Estoque" type="primary">
