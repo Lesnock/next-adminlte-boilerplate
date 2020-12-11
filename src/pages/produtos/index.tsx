@@ -87,7 +87,7 @@ const StockProgress = ({ min, max, quantity }: StockProgressProps) => {
   let width = 0
 
   // Calculate progress width
-  if (quantity < min) {
+  if (quantity <= min) {
     width = 1
   } else if (quantity > max) {
     width = 100
