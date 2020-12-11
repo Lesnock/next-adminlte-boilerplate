@@ -53,8 +53,6 @@ const Form = ({ children, initialData = {}, validations = {}, isLoading = false,
   async function submit (event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    console.log(fields['last_price'])
-
     const cleanData = emptyKeysToNull(fields)
 
     if (!isEmptyObject(validations)) {

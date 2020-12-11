@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 
 import { toast } from 'react-toastify'
 import { number, string } from 'validations'
@@ -9,6 +10,7 @@ import api, { apiFromServer } from 'services/api'
 
 import AdminLayout from 'layouts/admin'
 
+import Alert from 'components/Alert'
 import ProductForm from 'forms/ProductForm'
 import { BreadcrumbItem } from 'components/Breadcrumb'
 
@@ -30,20 +32,26 @@ const validations = {
 }
 
 const Edit = ({ product, error }) => {
+  const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+  const [formError, setFormError] = useState(null)
 
   if (error) toast.error('Erro: ' + error)
 
   // Save Product
   async function save(fields) {
     setIsLoading(true)
+    setFormError(null)
+
     await delay(500)
 
     try {
       await api.put(`/products/${product.id}`, fields)
       toast.success(`Produto salvo com sucesso`)
+
+      router.push('/produtos')
     } catch (error) {
-      toast.error(error.message)
+      setFormError(error.message)
     }
 
     setIsLoading(false)
@@ -56,6 +64,7 @@ const Edit = ({ product, error }) => {
       breadcrumb={breadcrumb}
     >
       <div className="col-md-8">
+        {formError && <Alert message={formError!} />}
         <ProductForm
           initialData={product}
           onSubmit={save}

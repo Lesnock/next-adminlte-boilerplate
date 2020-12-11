@@ -10,10 +10,10 @@ import Loading from 'components/Loading'
 import InputMoney from 'components/InputMoney'
 
 type Props = {
-  onSubmit: (values: { [key: string]: any }) => void
+  onSubmit: (values: { [key: string]: any }) => void //eslint-disable-line
   validations?: { [key: string]: AnySchema }
   isLoading?: boolean
-  initialData?: { [key: string]: any }
+  initialData?: { [key: string]: any } //eslint-disable-line
 }
 
 const ProductForm = ({
@@ -53,6 +53,7 @@ const ProductForm = ({
           ></InputMoney>
         </Row>
       </Card>
+
       <Card title="Estoque" type="primary">
         <Row>
           <Input
@@ -77,6 +78,7 @@ const ProductForm = ({
           ></Input>
         </Row>
       </Card>
+
       <Submit>Salvar</Submit>
     </Form>
   )
