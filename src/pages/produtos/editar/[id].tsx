@@ -28,6 +28,7 @@ const validations = {
   name: string('nome').nullable().required(),
   ncm: string('ncm').nullable(),
   protheus_cod: string('protheus_cod').nullable(),
+  last_price: number('último preço pago').nullable().required(),
   quantity: number('quantidade').min(0).nullable().required(),
   min_quantity: number('estoque mínimo').min(0).nullable().required(),
   max_quantity: number('estoque máximo').nullable(),
@@ -56,7 +57,11 @@ const Edit = ({ product, error }) => {
   }
 
   return (
-    <AdminLayout title="" actives={['products']} breadcrumb={breadcrumb}>
+    <AdminLayout
+      title="Editar produto"
+      actives={['products']}
+      breadcrumb={breadcrumb}
+    >
       <Form onSubmit={onSubmit} validations={validations} initialData={product}>
         <div className="col-md-8">
           {isLoading && <Loading />}
@@ -76,6 +81,12 @@ const Edit = ({ product, error }) => {
                   { title: 'Litros', value: 'Litros' }
                 ]}
               />
+
+              <Input
+                label="Último preço pago (R$)"
+                name="last_price"
+                col={6}
+              ></Input>
             </Row>
           </Card>
           <Card title="Estoque" type="primary">
