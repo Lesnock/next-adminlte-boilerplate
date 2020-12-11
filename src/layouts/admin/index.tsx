@@ -43,6 +43,10 @@ export default function AdminLayout({
     if (router.query.order) {
       tableStore.update('order', router.query.order)
     }
+
+    if (router.query.search) {
+      tableStore.update('search', router.query.search)
+    }
   }
 
   return (

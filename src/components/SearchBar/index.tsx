@@ -1,10 +1,12 @@
 import React, { ChangeEvent } from 'react'
 
-type SearchBarProps = {
+import tableStore from 'stores/TableStore'
+
+type Props = {
   onChange: (search: string) => void
 }
 
-const SearchBar = ({ onChange }: SearchBarProps) => {
+const SearchBar = ({ onChange }: Props) => {
   type Timeout = NodeJS.Timeout | undefined
 
   let timeout: Timeout = undefined
@@ -29,6 +31,7 @@ const SearchBar = ({ onChange }: SearchBarProps) => {
         name="table_search"
         className="form-control float-right"
         placeholder="Pesquisa"
+        defaultValue={tableStore.get('search')}
         onChange={onType}
       />
       <div className="input-group-append">

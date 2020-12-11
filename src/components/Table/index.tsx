@@ -82,10 +82,12 @@ function Table({
   // Search by all
   const search = (value: string) => {
     if (value === '') {
+      setURLParams(router, { search: '' })
       return tableStore.update('search', undefined)
     }
 
     tableStore.update('search', value)
+    setURLParams(router, { search: value })
   }
 
   // Get header icon according to header state
