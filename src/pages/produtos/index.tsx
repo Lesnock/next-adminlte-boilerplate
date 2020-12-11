@@ -1,8 +1,4 @@
-import { useEffect } from 'react'
-import { useRouter } from 'next/router'
-
 import AdminLayout from 'layouts/admin'
-import tableStore from 'stores/TableStore'
 
 import Progress from 'components/Progress'
 import FetchTable from 'components/FetchTable'
@@ -41,15 +37,6 @@ const headers = [
 ]
 
 function Produtos() {
-  const router = useRouter()
-
-  useEffect(() => {
-    router.query.sort && tableStore.update('sort', router.query.sort || 'id')
-    router.query.order &&
-      tableStore.update('order', router.query.order || 'desc')
-    router.query.limit && tableStore.update('limit', router.query.limit)
-  }, []) //eslint-disable-line
-
   // eslint-disable-next-line
   function makeRow(row: { [Key: string]: any }) {
     return [
@@ -84,12 +71,18 @@ function Produtos() {
       actives={['products']}
       breadcrumb={breadcrumb}
     >
+      <div className="col-12" style={{ marginBottom: '10px' }}>
+        <LinkButton type="primary" href="/produtos/adicionar" size="md">
+          <i className="fas fa-plus"></i> Adicionar
+        </LinkButton>
+      </div>
       <FetchTable url="/products" headers={headers} makeRow={makeRow} />
     </AdminLayout>
   )
 }
 
 type StockProgressProps = { min: number; max: number; quantity: number }
+
 const StockProgress = ({ min, max, quantity }: StockProgressProps) => {
   let width = 0
 

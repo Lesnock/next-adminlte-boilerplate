@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { createContext, useState, useContext, useCallback, FormEvent } from 'react'
+import { createContext, useState, useContext, useCallback, FormEvent, useEffect } from 'react'
 import { AnySchema, ValidationError, object } from 'yup'
 
 import { ReactProps } from 'types'
@@ -30,12 +30,15 @@ type FormProps = {
   onSubmit: (values: { [key: string]: any }) => any
 }
 
-const Form = ({ children, initialData = {}, validations = {}, isLoading = false, onSubmit }: ReactProps & FormProps) => {
+// Hack for react bug (loop when hooks depends on default parameters)
+const hackData = {}
+
+const Form = ({ children, initialData = hackData, validations = {}, isLoading = false, onSubmit }: ReactProps & FormProps) => {
   const [fields, setFields] = useState({})
   const [errors, setErrors] = useState({})
 
   const registerField = useCallback((name: string) => {
-    return setFields(prev => {
+    setFields(prev => {
       return { ...prev, [name]: initialData[name] }
     })
   }, [initialData])

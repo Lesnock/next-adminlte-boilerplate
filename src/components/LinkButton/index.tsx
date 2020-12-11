@@ -6,18 +6,23 @@ import { ReactProps } from 'types'
 import styles from './Styles.module.css'
 
 type LinkButtonProps = {
-  type?: string
   href: string
+  type?: string
+  size?: string
 }
 
 const LinkButton = ({
   type = 'primary',
   href,
+  size = 'sm',
   children
 }: LinkButtonProps & ReactProps) => {
   return (
     <Link href={href}>
-      <a type="button" className={`btn btn-${type} btn-sm ${styles.container}`}>
+      <a
+        type="button"
+        className={`btn btn-${type} btn-${size} ${styles.container}`}
+      >
         {children}
       </a>
     </Link>

@@ -1,14 +1,13 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { toast } from 'react-toastify'
 import { number, string } from 'validations'
 
-import { delay } from 'helpers'
-import { Product } from 'types'
-import api from 'services/api'
-
 import AdminLayout from 'layouts/admin'
+
+import { delay } from 'helpers'
+import api from 'services/api'
 
 import Alert from 'components/Alert'
 import ProductForm from 'forms/ProductForm'
@@ -17,7 +16,7 @@ import { BreadcrumbItem } from 'components/Breadcrumb'
 const breadcrumb: BreadcrumbItem[] = [
   { name: 'Home', link: '/' },
   { name: 'Produtos', link: '/produtos' },
-  { name: 'Editar', active: true }
+  { name: 'Adicionar', active: true }
 ]
 
 const validations = {
@@ -31,36 +30,20 @@ const validations = {
   unity: string('unidade de medida').nullable().required()
 }
 
-const ProductEdit = () => {
+const ProductAdd = () => {
   const router = useRouter()
-  const [product, setProduct] = useState<Partial<Product>>({})
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [formError, setFormError] = useState(null)
 
-  // Get the product
   useEffect(() => {
-    setIsLoading(true)
-
-    async function getProduct() {
-      await delay(500)
-
-      const { id } = router.query
-
-      try {
-        const { data: product } = await api.get('/products/' + id)
-        setProduct(product)
-      } catch (error) {
-        toast.error(error.message)
-        router.push('/produtos')
-      }
-
+    async function start() {
+      delay(500)
       setIsLoading(false)
     }
 
-    getProduct()
-  }, [router])
+    start()
+  }, [])
 
-  // Save Product
   async function save(fields) {
     setIsLoading(true)
     setFormError(null)
@@ -68,7 +51,7 @@ const ProductEdit = () => {
     await delay(500)
 
     try {
-      await api.put(`/products/${product.id}`, fields)
+      await api.put(`/products`, fields)
       toast.success(`Produto salvo com sucesso`)
 
       router.push('/produtos')
@@ -81,21 +64,21 @@ const ProductEdit = () => {
 
   return (
     <AdminLayout
-      title="Editar produto"
+      title="Adicionar produto"
       actives={['products']}
       breadcrumb={breadcrumb}
     >
       <div className="col-md-8">
         {formError && <Alert message={formError!} />}
         <ProductForm
-          initialData={product}
           onSubmit={save}
           validations={validations}
           isLoading={isLoading}
+          // initialData={{}}
         />
       </div>
     </AdminLayout>
   )
 }
 
-export default ProductEdit
+export default ProductAdd
