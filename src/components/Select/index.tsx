@@ -15,13 +15,15 @@ type Props = {
 }
 
 const Select = ({ name, label, col = 6, options = [] }: Props) => {
-  const { registerField, updateValue, errors, initialData } = useForm()
+  const { updateValue, errors, initialData } = useForm()
   const [isInvalid, setIsInvalid] = useState(false)
 
-  // Register field
+  // Does not register, but update
   useEffect(() => {
-    registerField(name)
-  }, [registerField, name])
+    if (!initialData[name]) {
+      updateValue(name, options[0]?.value)
+    }
+  }, [updateValue, options, name, initialData])
 
   // Set isInvalid
   useEffect(() => {

@@ -34,7 +34,7 @@ type FormProps = {
 const hackData = {}
 
 const Form = ({ children, initialData = hackData, validations = {}, isLoading = false, onSubmit }: ReactProps & FormProps) => {
-  const [fields, setFields] = useState({})
+  const [fields, setFields] = useState(hackData)
   const [errors, setErrors] = useState({})
 
   const registerField = useCallback((name: string) => {
@@ -51,7 +51,7 @@ const Form = ({ children, initialData = hackData, validations = {}, isLoading = 
 
   const getFieldError = useCallback((name: string) => {
     return errors[name]
-  }, [])
+  }, [errors])
 
   async function submit (event: FormEvent<HTMLFormElement>) {
     event.preventDefault()

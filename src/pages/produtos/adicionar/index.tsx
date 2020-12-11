@@ -51,7 +51,7 @@ const ProductAdd = () => {
     await delay(500)
 
     try {
-      await api.put(`/products`, fields)
+      await api.post(`/products`, fields)
       toast.success(`Produto salvo com sucesso`)
 
       router.push('/produtos')
@@ -74,7 +74,6 @@ const ProductAdd = () => {
           onSubmit={save}
           validations={validations}
           isLoading={isLoading}
-          // initialData={{}}
         />
       </div>
     </AdminLayout>
