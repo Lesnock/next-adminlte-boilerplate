@@ -38,7 +38,7 @@ const Form = ({ children, initialData = {}, validations = {}, isLoading = false,
     return setFields(prev => {
       return { ...prev, [name]: initialData[name] }
     })
-  }, [])
+  }, [initialData])
 
   const updateValue = useCallback((name: string, value: any) => {
     setFields(prev => {

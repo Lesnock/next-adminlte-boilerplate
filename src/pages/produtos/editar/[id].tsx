@@ -1,12 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { toast } from 'react-toastify'
 import { number, string } from 'validations'
-import { GetServerSidePropsContext } from 'next'
 
 import { delay } from 'helpers'
-import api, { apiFromServer } from 'services/api'
+import { Product } from 'types'
+import api from 'services/api'
 
 import AdminLayout from 'layouts/admin'
 
@@ -31,12 +31,34 @@ const validations = {
   unity: string('unidade de medida').nullable().required()
 }
 
-const Edit = ({ product, error }) => {
+const Edit = () => {
   const router = useRouter()
+  const [product, setProduct] = useState<Partial<Product>>({})
   const [isLoading, setIsLoading] = useState(false)
   const [formError, setFormError] = useState(null)
 
-  if (error) toast.error('Erro: ' + error)
+  // Get the product
+  useEffect(() => {
+    setIsLoading(true)
+
+    async function getProduct() {
+      await delay(500)
+
+      const { id } = router.query
+
+      try {
+        const { data: product } = await api.get('/products/' + id)
+        setProduct(product)
+      } catch (error) {
+        toast.error(error.message)
+        router.push('/produtos')
+      }
+
+      setIsLoading(false)
+    }
+
+    getProduct()
+  }, [router])
 
   // Save Product
   async function save(fields) {
@@ -74,21 +96,6 @@ const Edit = ({ product, error }) => {
       </div>
     </AdminLayout>
   )
-}
-
-// Get the specific product
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const { id } = context.query
-
-  try {
-    const { data: product } = await apiFromServer(context).get(
-      '/products/' + id
-    )
-
-    return { props: { product } }
-  } catch (error) {
-    return { props: { error: error.message } }
-  }
 }
 
 export default Edit

@@ -24,3 +24,15 @@ export interface TableHeader {
   searchable: boolean
   small?: boolean
 }
+
+export interface Product {
+  id: number
+  name: string
+  ncm: string
+  protheus_cod: string
+  last_price: number
+  unity: string
+  quantity: number
+  min_quantity: number
+  max_quantity: number
+}
