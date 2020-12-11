@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { toast } from 'react-toastify'
 import { number, string } from 'validations'
@@ -9,14 +9,7 @@ import api, { apiFromServer } from 'services/api'
 
 import AdminLayout from 'layouts/admin'
 
-import Row from 'components/Row'
-import Form from 'components/Form'
-import Input from 'components/Input'
-import Select from 'components/Select'
-import { Card } from 'components/Card'
-import Submit from 'components/Submit'
-import Loading from 'components/Loading'
-import InputMoney from 'components/InputMoney'
+import ProductForm from 'forms/ProductForm'
 import { BreadcrumbItem } from 'components/Breadcrumb'
 
 const breadcrumb: BreadcrumbItem[] = [
@@ -39,24 +32,21 @@ const validations = {
 const Edit = ({ product, error }) => {
   const [isLoading, setIsLoading] = useState(false)
 
-  if (error) {
-    toast.error('Erro: ' + error)
-  }
+  if (error) toast.error('Erro: ' + error)
 
-  async function onSubmit(fields) {
+  // Save Product
+  async function save(fields) {
     setIsLoading(true)
     await delay(500)
-
-    // console.log(fields)
 
     try {
       await api.put(`/products/${product.id}`, fields)
       toast.success(`Produto salvo com sucesso`)
     } catch (error) {
       toast.error(error.message)
-    } finally {
-      setIsLoading(false)
     }
+
+    setIsLoading(false)
   }
 
   return (
@@ -65,60 +55,14 @@ const Edit = ({ product, error }) => {
       actives={['products']}
       breadcrumb={breadcrumb}
     >
-      <Form onSubmit={onSubmit} validations={validations} initialData={product}>
-        <div className="col-md-8">
-          {isLoading && <Loading />}
-          <Card title="Propriedades" type="primary">
-            <Row>
-              <Input label="Nome" name="name"></Input>
-
-              <Input label="NCM" name="ncm" col={3}></Input>
-
-              <Input label="Cód. Protheus" name="protheus_cod" col={3}></Input>
-
-              <Select
-                label="Unidade de medida"
-                name="unity"
-                options={[
-                  { title: 'Unidades', value: 'Unidades' },
-                  { title: 'Litros', value: 'Litros' }
-                ]}
-              />
-
-              <InputMoney
-                label="Último preço pago (R$)"
-                name="last_price"
-                col={6}
-              ></InputMoney>
-            </Row>
-          </Card>
-          <Card title="Estoque" type="primary">
-            <Row>
-              <Input
-                label="Quantidade em estoque"
-                type="number"
-                name="quantity"
-                col={4}
-              ></Input>
-
-              <Input
-                label="Estoque mínimo"
-                type="number"
-                name="min_quantity"
-                col={4}
-              ></Input>
-
-              <Input
-                label="Estoque máximo"
-                type="number"
-                name="max_quantity"
-                col={4}
-              ></Input>
-            </Row>
-          </Card>
-          <Submit>Salvar</Submit>
-        </div>
-      </Form>
+      <div className="col-md-8">
+        <ProductForm
+          initialData={product}
+          onSubmit={save}
+          validations={validations}
+          isLoading={isLoading}
+        />
+      </div>
     </AdminLayout>
   )
 }
