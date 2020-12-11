@@ -1,4 +1,3 @@
-import { isPlainObject } from 'jquery'
 import React from 'react'
 import Link from 'next/link'
 
