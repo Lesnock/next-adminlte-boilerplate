@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react'
 import { withRouter, Router } from 'next/router'
-import { TableHeader } from 'types'
 
 import api from 'services/api'
+import { TableHeader } from 'types'
 import { delay, setURLParams, isEmptyObject } from 'helpers'
 
 import Table from 'components/Table'
 import tableStore from 'stores/TableStore'
 
-type FetchTableProps = {
+interface Props {
   router: Router
   url: string
   headers: TableHeader[]
-  makeRow: (rows: []) => Array<[]>
+  makeRow: <T>(row: T) => (string | number | JSX.Element)[]
 }
 
-function FetchTable({ url, headers, router, makeRow }: FetchTableProps) {
+function FetchTable({ url, headers, router, makeRow }: Props) {
   const [results, setResults] = useState([])
   const [search, setSearch] = useState(tableStore.get('search'))
   const [limit, setLimit] = useState(tableStore.get('limit'))

@@ -1,5 +1,7 @@
 import AdminLayout from 'layouts/admin'
 
+import { Product } from 'types'
+
 import Progress from 'components/Progress'
 import FetchTable from 'components/FetchTable'
 import LinkButton from 'components/LinkButton'
@@ -14,6 +16,15 @@ const headers = [
   { label: 'ID', name: 'id', sortable: true, searchable: true, small: true },
 
   { label: 'Nome', name: 'name', sortable: true, searchable: true },
+
+  { label: 'NCM', name: 'ncm', sortable: true, searchable: true },
+
+  {
+    label: 'Cód. Protheus',
+    name: 'protheus_cod',
+    sortable: true,
+    searchable: true
+  },
 
   {
     label: 'Preço unit.',
@@ -36,35 +47,44 @@ const headers = [
   { label: 'Ações', name: 'actions', sortable: false, searchable: false }
 ]
 
+// eslint-disable-next-line
+function makeRow(row) {
+  return [
+    row.id,
+
+    row.name,
+
+    row.ncm,
+
+    row.protheus_cod,
+
+    row.last_price.toLocaleString('pt-br', {
+      style: 'currency',
+      currency: 'BRL'
+    }),
+
+    <StockProgress
+      key={row.id}
+      min={row.min_quantity}
+      max={row.max_quantity}
+      quantity={row.quantity}
+    />,
+
+    row.quantity,
+
+    <>
+      <LinkButton type="success" href={`/produtos/editar/${row.id}`}>
+        Editar
+      </LinkButton>
+
+      <LinkButton type="danger" href={`/produtos/delete/${row.id}`}>
+        Excluir
+      </LinkButton>
+    </>
+  ]
+}
+
 function Produtos() {
-  // eslint-disable-next-line
-  function makeRow(row: { [Key: string]: any }) {
-    return [
-      row.id,
-      row.name,
-      row.last_price.toLocaleString('pt-br', {
-        style: 'currency',
-        currency: 'BRL'
-      }),
-      <StockProgress
-        key={row.id}
-        min={row.min_quantity}
-        max={row.max_quantity}
-        quantity={row.quantity}
-      />,
-      row.quantity,
-      <>
-        <LinkButton type="success" href={`/produtos/editar/${row.id}`}>
-          Editar
-        </LinkButton>
-
-        <LinkButton type="danger" href={`/produtos/delete/${row.id}`}>
-          Excluir
-        </LinkButton>
-      </>
-    ]
-  }
-
   return (
     <AdminLayout
       title="Produtos"

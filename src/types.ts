@@ -1,5 +1,9 @@
 import { ReactNode } from 'react'
 
+export interface GenericObject {
+  [key: string]: any
+}
+
 export interface User {
   name: string
   username: string
@@ -25,7 +29,7 @@ export interface TableHeader {
   small?: boolean
 }
 
-export interface Product {
+export interface Product extends GenericObject {
   id: number
   name: string
   ncm: string
