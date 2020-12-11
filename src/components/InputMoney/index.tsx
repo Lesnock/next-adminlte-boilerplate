@@ -26,7 +26,7 @@ const InputMoney = ({ label, name, col = 6, ...rest }: Props) => {
   })
 
   function onKeyPress(value: string) {
-    const float = parseFloat(value.replace('.', '').replace(',', '.'))
+    const float = value.replace('.', '').replace(',', '.')
     updateValue(name, float)
   }
 

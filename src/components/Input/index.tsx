@@ -5,11 +5,20 @@ import { useForm } from 'components/Form'
 type Props = {
   label: string
   name: string
+  mask?: string
+  maskOptions?: { [key: string]: any } //eslint-disable-line
   col?: number
   [prop: string]: any //eslint-disable-line
 }
 
-const Input = ({ label, name, col = 6, ...rest }: Props) => {
+const Input = ({
+  label,
+  name,
+  col = 6,
+  mask,
+  maskOptions = {},
+  ...rest
+}: Props) => {
   const { registerField, updateValue, initialData, errors } = useForm()
   const [isInvalid, setIsInvalid] = useState(false)
 
@@ -20,6 +29,12 @@ const Input = ({ label, name, col = 6, ...rest }: Props) => {
   useEffect(() => {
     setIsInvalid(!!errors[name])
   }, [errors, name])
+
+  useEffect(() => {
+    if (mask) {
+      $(`input[name=${name}]`).mask(mask, maskOptions)
+    }
+  })
 
   return (
     <div className={`col-md-${col}`}>
