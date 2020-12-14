@@ -23,7 +23,7 @@ type TableProps = {
 }
 
 function Table({
-  title = 'Tabela de Dados',
+  title = '',
   headers = [],
   rows = [],
   withSearchbar = false,
