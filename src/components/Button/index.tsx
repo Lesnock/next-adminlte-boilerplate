@@ -1,12 +1,11 @@
-import React from 'react'
+import React, { HTMLAttributes } from 'react'
 
 import { ReactProps } from 'types'
 import styles from './Styles.module.css'
 
-type LinkButtonProps = {
+type Props = {
   type?: string
   size?: string
-  [key: string]: any
 }
 
 const Button = ({
@@ -14,7 +13,7 @@ const Button = ({
   size = 'sm',
   children,
   ...rest
-}: LinkButtonProps & ReactProps) => {
+}: Props & ReactProps & HTMLAttributes<HTMLButtonElement>) => {
   return (
     <button
       type="button"

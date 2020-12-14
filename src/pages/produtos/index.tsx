@@ -116,7 +116,12 @@ function Produtos() {
           <i className="fas fa-plus"></i> Adicionar
         </LinkButton>
       </div>
-      <FetchTable url="/products" headers={headers} makeRow={makeRow} />
+      <FetchTable
+        title="Produtos"
+        url="/products"
+        headers={headers}
+        makeRow={makeRow}
+      />
     </AdminLayout>
   )
 }

@@ -14,7 +14,7 @@ import styles from './Styles.module.css'
 
 type Row = Array<string | number | ReactNode>
 
-type TableProps = {
+export type TableProps = {
   title?: string
   headers?: TableHeader[]
   rows?: Row[]

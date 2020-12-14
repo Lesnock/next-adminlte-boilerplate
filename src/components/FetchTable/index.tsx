@@ -5,7 +5,7 @@ import api from 'services/api'
 import { TableHeader } from 'types'
 import { delay, setURLParams, isEmptyObject } from 'helpers'
 
-import Table from 'components/Table'
+import Table, { TableProps } from 'components/Table'
 import tableStore from 'stores/TableStore'
 
 interface Props {
@@ -15,7 +15,13 @@ interface Props {
   makeRow: <T>(row: T) => (string | number | JSX.Element)[]
 }
 
-function FetchTable({ url, headers, router, makeRow }: Props) {
+function FetchTable({
+  url,
+  headers,
+  router,
+  makeRow,
+  ...rest
+}: Props & TableProps) {
   const [results, setResults] = useState([])
   const [search, setSearch] = useState(tableStore.get('search'))
   const [limit, setLimit] = useState(tableStore.get('limit'))
@@ -88,6 +94,7 @@ function FetchTable({ url, headers, router, makeRow }: Props) {
       rows={results}
       withSearchbar={true}
       withFieldSearch={false}
+      {...rest}
     />
   )
 }
