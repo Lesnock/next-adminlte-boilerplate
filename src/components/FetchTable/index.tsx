@@ -3,10 +3,10 @@ import { withRouter, Router } from 'next/router'
 
 import api from 'services/api'
 import { TableHeader } from 'types'
+import tableStore from 'stores/TableStore'
 import { delay, setURLParams, isEmptyObject } from 'helpers'
 
 import Table, { TableProps } from 'components/Table'
-import tableStore from 'stores/TableStore'
 
 interface Props {
   router: Router

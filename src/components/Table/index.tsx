@@ -1,4 +1,4 @@
-import { useEffect, useState, ReactNode } from 'react'
+import { useEffect, useState, ReactNode, FunctionComponent } from 'react'
 import { withRouter, Router } from 'next/router'
 import { TableHeader } from 'types'
 
@@ -20,6 +20,7 @@ export type TableProps = {
   rows?: Row[]
   withSearchbar?: boolean
   withFieldSearch?: boolean
+  filters?: FunctionComponent[]
 }
 
 function Table({
@@ -28,6 +29,7 @@ function Table({
   rows = [],
   withSearchbar = false,
   withFieldSearch = false,
+  filters,
   router
 }: TableProps & { router: Router }) {
   const [sort, setSort] = useState(tableStore.get('sort'))
@@ -114,6 +116,17 @@ function Table({
           <div className="card">
             <div className="card-header">
               <h3 className="card-title">{title}</h3>
+              {filters && (
+                <div
+                  className="form-inline"
+                  style={{ display: 'inline-block' }}
+                >
+                  {filters.map((Filter, index) => (
+                    <Filter key={index} />
+                  ))}
+                </div>
+              )}
+
               <div className="card-tools">
                 {withSearchbar && <SearchBar onChange={search} />}
               </div>

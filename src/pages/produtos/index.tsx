@@ -1,7 +1,7 @@
-import useUpdate from 'hooks/update'
+import { toast } from 'react-toastify'
 
 import api from 'services/api'
-
+import useUpdate from 'hooks/update'
 import AdminLayout from 'layouts/admin'
 
 import Button from 'components/Button'
@@ -9,7 +9,7 @@ import Progress from 'components/Progress'
 import FetchTable from 'components/FetchTable'
 import LinkButton from 'components/LinkButton'
 import { BreadcrumbItem } from 'components/Breadcrumb'
-import { toast } from 'react-toastify'
+// import ListTableFilter from 'table-filters/ListTableFilter'
 
 function Produtos() {
   const forceUpdate = useUpdate()
@@ -121,6 +121,7 @@ function Produtos() {
         url="/products"
         headers={headers}
         makeRow={makeRow}
+        // filters={[ListTableFilter]}
       />
     </AdminLayout>
   )
